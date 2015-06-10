@@ -25,7 +25,7 @@ CREATE TABLE Customer_Service(
 CID Integer,
 serv_date timestamp,
 SIN CHAR(11),
-primary key(CID,Date),
+primary key(CID, serv_date),
 foreign key (SIN) references Staff(SIN));
 
 CREATE TABLE Recipes(
@@ -37,7 +37,7 @@ CREATE TABLE Recipes(
 CREATE TABLE Recipes_Created(
 rName CHAR(25),
 SIN CHAR(11),
-primary key(rName),
+primary key(rName, SIN),
 foreign key (SIN) references Staff(SIN) 
 ON DELETE CASCADE);
 
@@ -48,7 +48,8 @@ order_date TIMESTAMP,
 mName CHAR(25),
 primary key(ID,CID),
 foreign key (CID) references Customer_Serves(CID),
-foreign key (mName) references Recipes_Created(rName));
+foreign key (mName) references Recipes_Created(rName)
+ON DELETE CASCADE);
 
 CREATE TABLE Recipe_To_Menu(
 rName Char(25),

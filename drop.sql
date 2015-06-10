@@ -1,0 +1,10 @@
+drop table recipes_created;
+drop table staff;
+drop table customer_service;
+drop table customer;
+drop table recipes;
+drop table order_placed_ordered;
+drop table recipe_to_menu;
+drop table menu_price;
+drop table stock;
+drop table requires;
