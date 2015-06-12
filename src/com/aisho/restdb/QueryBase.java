@@ -129,14 +129,16 @@ public class QueryBase {
 	 * ResultSet for getter methods and other information.
 	 */	
 	protected ResultSet sqlSelect(Connection con, String selectClause, String table, String clause) {
-		
-		PreparedStatement ps;
+;
 		ResultSet result = null;
 		try {			
-			ps = con.prepareStatement("SELECT " + selectClause + " FROM " + table + " " + clause);
-			result = ps.executeQuery();
+			Statement stmt = con.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+			
+			result = stmt.executeQuery("SELECT " + selectClause + " FROM " + table + " " + clause);
 			  
-			ps.close();
+			stmt.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
