@@ -1,8 +1,19 @@
+DROP TABLE Staff;
+DROP TABLE Customer;
+DROP TABLE Customer_Service;
+DROP TABLE Recipes; 
+DROP TABLE Recipes_created;
+DROP TABLE Order_Placed_Ordered;
+DROP TABLE Recipe_To_Menu;
+DROP TABLE Menu_Price;  
+DROP TABLE Stock;
+DROP TABLE Requires;
 
 CREATE TABLE Staff(
  SIN CHAR(11),
  Name CHAR(25),
- primary key(SIN));
+ primary key(SIN)
+ ON DELETE CASCADE);
 
 
 CREATE TABLE Customer(
@@ -12,10 +23,10 @@ CREATE TABLE Customer(
 
 CREATE TABLE Customer_Service(
 CID Integer,
-Date Datetime,
+serv_date timestamp,
 SIN CHAR(11),
-primary key(CID,Date),
-foreign key SIN references Staff(SIN));
+primary key(CID, serv_date),
+foreign key (SIN) references Staff(SIN));
 
 CREATE TABLE Recipes(
  rName CHAR(25),
@@ -26,24 +37,25 @@ CREATE TABLE Recipes(
 CREATE TABLE Recipes_Created(
 rName CHAR(25),
 SIN CHAR(11),
-primary key(rName),
-foreign key SIN references Staff(SIN) 
+primary key(rName, SIN),
+foreign key (SIN) references Staff(SIN) 
 ON DELETE CASCADE);
 
 CREATE TABLE Order_Placed_Ordered(
 ID Integer,
 CID Integer,
-Date Datetime,
+order_date TIMESTAMP,
 mName CHAR(25),
 primary key(ID,CID),
-foreign key CID references Customer_Serves(CID),
-foreign key mName references Recipes_Created(rName));
+foreign key (CID) references Customer_Serves(CID),
+foreign key (mName) references Recipes_Created(rName)
+ON DELETE CASCADE);
 
 CREATE TABLE Recipe_To_Menu(
 rName Char(25),
 mName Char(25),
 primary key(rName, mName),
-foreign key rName references Recipes_Created(rName)
+foreign key (rName) references Recipes_Created(rName)
 ON DELETE CASCADE);
 
 CREATE TABLE Menu_Price(
@@ -62,5 +74,5 @@ CREATE TABLE Requires(
 sName CHAR(15),
 mName CHAR(25),
 primary key(sName, mName),
-foreign key sName references Stock(sName) ,
-foreign key mName references Menu_Featured(mName));
+foreign key (sName) references Stock(sName) ,
+foreign key (mName) references Menu_Featured(mName));
