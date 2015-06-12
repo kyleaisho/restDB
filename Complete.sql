@@ -66,9 +66,9 @@ UnitPrice Decimal,
 primary key(sName));
 
 CREATE TABLE Requires(
-sName CHAR(25),
+sName CHAR(15),
 mName CHAR(25),
-primary key(mName, sName),
+primary key(sName, mName),
 foreign key (mName) references Menu_Price(mName),
 foreign key (sName) references Stock(sName));
 
@@ -211,16 +211,16 @@ INSERT INTO Order_Placed_Ordered
 VALUES(80927, 17, '2015-05-29 15:31:45.028', 'Cream Coffee');
 
 INSERT INTO Requires
-VALUES('Riviera Bouillabaisse', 'Shrimp');
+VALUES('Shrimp','Riviera Bouillabaisse');
 
 INSERT INTO Requires
-VALUES('Riviera Bouillabaisse', 'Tomatoes');
+VALUES('Tomatoes','Riviera Bouillabaisse');
 
 INSERT INTO Requires
-VALUES('Cream Coffee', 'Maple Sugar');
+VALUES('Maple Sugar', 'Cream Coffee');
 
 INSERT INTO Requires
-VALUES('Traditional Duck Broth', 'Duck Breast');
+VALUES('Duck Breast','Traditional Duck Broth' );
 
 INSERT INTO Requires
-VALUES('Black Truffle Risotto', 'Onions');
+VALUES('Onions', 'Black Truffle Risotto');
