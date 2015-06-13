@@ -27,4 +27,11 @@ public class OrderQueries extends QueryBase {
 	private void checkOrderAvailable(int cid, String order) {
 		
 	}
+	
+	//To be run from the main class. Insert anything you want to test here
+	protected void testOrderQueries() {
+		Connection con = TestHelper.connect();
+		ResultSet rs = sqlSelect(con, "*", "Recipe", "");
+		printResultSet(rs);
+	}
 }

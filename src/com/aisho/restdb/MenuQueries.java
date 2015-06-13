@@ -33,4 +33,11 @@ public class MenuQueries extends QueryBase {
 	private void deleteMenuItem(String rName) {
 		
 	}
+	
+	//To be run from the main class. Insert anything you want to test here
+	protected void testMenuQueries() {
+		Connection con = TestHelper.connect();
+		ResultSet rs = sqlSelect(con, "*", "Recipe", "");
+		printResultSet(rs);
+	}
 }

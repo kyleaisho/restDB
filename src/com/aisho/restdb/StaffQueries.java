@@ -27,4 +27,11 @@ public class StaffQueries extends QueryBase {
 	private void deleteStaff(int sin) {
 		//Should kick off the cascade effect with associated recipes
 	}
+	
+	//To be run from the main class. Insert anything you want to test here
+	protected void testStaffQueries() {
+		Connection con = TestHelper.connect();
+		ResultSet rs = sqlSelect(con, "*", "Recipe", "");
+		printResultSet(rs);
+	}
 }

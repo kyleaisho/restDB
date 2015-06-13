@@ -45,4 +45,11 @@ public class ComplexQueries extends QueryBase {
 		//Not sure if SimpleDateFormat is the best/only way for handling dates in our case
 		
 	}
+	
+	//To be run from the main class. Insert anything you want to test here
+	protected void testComplexQueries() {
+		Connection con = TestHelper.connect();
+		ResultSet rs = sqlSelect(con, "*", "Recipe", "");
+		printResultSet(rs);
+	}
 }

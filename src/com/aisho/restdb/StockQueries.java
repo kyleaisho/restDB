@@ -22,4 +22,11 @@ public class StockQueries extends QueryBase {
 		//Can be used to add or subtract from the current stock
 		//unitPrice might be unnecessary if we never need to modify it? 
 	}
+	
+	//To be run from the main class. Insert anything you want to test here
+	protected void testStockQueries() {
+		Connection con = TestHelper.connect();
+		ResultSet rs = sqlSelect(con, "*", "Recipe", "");
+		printResultSet(rs);
+	}
 }
