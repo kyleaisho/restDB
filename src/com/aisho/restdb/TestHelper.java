@@ -12,11 +12,16 @@ public class TestHelper {
     	
     	
     	String connectURL = "jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug"; 
-    	String username = "ora_xxxx"; //Set your Oracle username here
-    	String password = "a12345678"; //Set your password here
+    	String username = "ora_m0t7"; //Set your Oracle username here
+    	String password = "a48666101"; //Set your password here
     		
 
     	try {
+    		
+    		// Load the Oracle JDBC driver. Requires the classes12.zip folder added as an External
+    		// JAR into your local RestDB project
+    		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+
     		Connection con;
     		
     		if (username == "ora_xxxx") {
