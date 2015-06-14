@@ -7,12 +7,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JRadioButton;
+
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.RowSpec;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -81,6 +87,14 @@ public class AppWindow extends JFrame {
 		JButton btnRecipes = new JButton("Recipes");
 		btnRecipes.setBounds(477, 56, 117, 29);
 		getContentPane().add(btnRecipes);
+		btnRecipes.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+			
+		})
 		
 		JButton btnStaff = new JButton("Staff");
 		btnStaff.setBounds(477, 98, 117, 29);
