@@ -6,6 +6,12 @@ public class Connect {
 	private static java.sql.Connection con;
 	private static Connect connectionClass;
 	
+	/**
+	  * Constructor.
+	  * 
+	  * Makes a connection to Our Oracle Database
+	  */
+	
 	Connect(){
 		
 		connectionClass = this;
@@ -25,13 +31,6 @@ public class Connect {
 		try 
 		{
 			con = DriverManager.getConnection(connectURL,"ora_x1i8","a55386114");
-			
-			Statement st = con.createStatement();
-			String sql = "SELECT * FROM Staff";
-			ResultSet rs = st.executeQuery(sql);
-			while(rs.next()){
-				System.out.println(rs.getInt("SIN")+" " + rs.getString("NAME"));
-		}
 		
 		}
 		catch (SQLException ex)
@@ -41,6 +40,10 @@ public class Connect {
 		}
 	}
 		
+	/**
+	 * Checks if we are connected to our Database if not creates
+	 * a new connection from our Connect class
+	 */
 		public static Connect getInstance()
 		{
 			
@@ -51,6 +54,10 @@ public class Connect {
 			return connectionClass;
 			
 		}
+		
+		/**
+		 * Gets our connection code from the connection we made
+		 */
 		
 		public java.sql.Connection getConnection() {
 			return con;
