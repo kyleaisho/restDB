@@ -24,14 +24,10 @@ public class Connect {
 		try 
 		{
 			con = DriverManager.getConnection(connectURL,"ora_x1i8","a55386114");
-			System.out.println("\nConnected to Oracle!");
 			Statement st = con.createStatement();
-			String sql = "SELECT * FROM authors";
+			String sql = "SELECT * FROM Staff";
 			ResultSet rs = st.executeQuery(sql);
-			System.out.println("Here");
-			System.out.println(rs.next());
-			if(rs.next()){
-				System.out.println("HERE!!!");
+			while(rs.next()){
 				System.out.println(rs.getInt("SIN")+" " + rs.getString("NAME"));
 		}
 			st.close();
@@ -39,7 +35,7 @@ public class Connect {
 		}
 		catch (SQLException ex)
 		{
-			System.out.println("Message: " + ex.getMessage());
+			System.out.println(ex.getMessage()+ "Could not connect");
 
 		}
 		
