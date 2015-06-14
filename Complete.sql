@@ -44,10 +44,10 @@ primary key(rName, mName),
 foreign key (rName) references Recipes(rName));
 
 CREATE TABLE Menu_Price(
-mName CHAR(25),
+rName CHAR(25),
 Price Decimal,
-primary key(mName),
-foreign key (mName) references Recipe_To_Menu(mName));
+primary key(rName),
+foreign key (rName) references Recipes(rName));
 
 CREATE TABLE Order_Placed_Ordered(
 ID Integer,
@@ -56,7 +56,7 @@ order_date TIMESTAMP,
 mName CHAR(25),
 primary key(ID,CID),
 foreign key (CID) references Customer(CID),
-foreign key (mName) references Menu_Price (mName));
+foreign key (mName) references Recipe_To_Menu(mName));
 
 
 CREATE TABLE Stock(
@@ -69,7 +69,7 @@ CREATE TABLE Requires(
 sName CHAR(15),
 mName CHAR(25),
 primary key(sName, mName),
-foreign key (mName) references Menu_Price(mName),
+foreign key (mName) references Recipe_To_Menu(mName),
 foreign key (sName) references Stock(sName));
 
 
@@ -180,19 +180,19 @@ VALUES('Chocolate Cake', 'Chocolate Mousse Cake');
 
 
 INSERT INTO Menu_Price
-VALUES('Riviera Bouillabaisse', 32.99);
+VALUES('Bouillabaisse', 32.99);
 
 INSERT INTO Menu_Price
 VALUES('Black Truffle Risotto', 17.99);
 
 INSERT INTO Menu_Price
-VALUES('Cream Coffee', 3.50);
+VALUES('Coffee', 3.50);
 
 INSERT INTO Menu_Price
-VALUES('Traditional Duck Broth', 12.99);
+VALUES('Duck Broth', 12.99);
 
 INSERT INTO Menu_Price
-VALUES('Chocolate Mousse Cake', 29.99);
+VALUES('Chocolate Cake', 29.99);
 
 
 INSERT INTO Order_Placed_Ordered
