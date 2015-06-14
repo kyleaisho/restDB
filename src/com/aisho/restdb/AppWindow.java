@@ -43,6 +43,7 @@ public class AppWindow extends JFrame {
 				try {
 					AppWindow frame = new AppWindow();
 					frame.setVisible(true);
+					frame.setTitle(TITLE);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -127,6 +128,20 @@ public class AppWindow extends JFrame {
 		JButton btnStock = new JButton("Stock");
 		btnStock.setBounds(477, 111, 117, 29);
 		getContentPane().add(btnStock);
+		
+		JButton btnOrder = new JButton("Order");
+		btnOrder.setBounds(17, 154, 117, 29);
+		getContentPane().add(btnOrder);
+		
+		btnOrder.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Order Click " + txtTableNumber.getText() + " " + txtCustomerId.getText() + " " + txtMenuItem.getText());
+			}
+			
+		});
+		
 		btnStock.addActionListener(new ActionListener() {
 
 			@Override
