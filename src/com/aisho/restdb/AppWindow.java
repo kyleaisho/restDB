@@ -26,12 +26,13 @@ import javax.swing.JButton;
 
 public class AppWindow extends JFrame {
 	
-	private static final int HEIGHT = 400;
-	private static final int WIDTH = 600;
+	private static final int HEIGHT = 600;
+	private static final int WIDTH = 800;
 	private static final String TITLE = "Restaurant DB";
 	private JTextField txtTableNumber;
 	private JTextField txtCustomerId;
 	private JTextField txtMenuItem;
+	
 
 	/**
 	 * Launch the application.
@@ -60,6 +61,8 @@ public class AppWindow extends JFrame {
 		JRadioButton rdbtnAdministrator = new JRadioButton("Administrator");
 		rdbtnAdministrator.setBounds(453, 6, 141, 23);
 		getContentPane().add(rdbtnAdministrator);
+		
+		
 		
 		JLabel lblPlaceOrder = new JLabel("Place Order");
 		lblPlaceOrder.setHorizontalAlignment(SwingConstants.CENTER);
@@ -91,21 +94,57 @@ public class AppWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("Recipe Click");
+			}
+			
+		});
+		
+		final JButton btnStaff = new JButton("Staff");
+		btnStaff.setBounds(477, 137, 117, 29);
+		getContentPane().add(btnStaff);
+		btnStaff.setVisible(false);
+		btnStaff.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Staff Click");
+			}
+			
+		});
+		
+		JButton btnCustomers = new JButton("Customers");
+		btnCustomers.setBounds(477, 84, 117, 29);
+		getContentPane().add(btnCustomers);
+		btnCustomers.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Customers Click");
+			}
+			
+		});
+		
+		JButton btnStock = new JButton("Stock");
+		btnStock.setBounds(477, 111, 117, 29);
+		getContentPane().add(btnStock);
+		btnStock.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Stock Click");
+			}
+			
+		});
+		
+		rdbtnAdministrator.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//Toggle the button's visibility
+				btnStaff.setVisible(!btnStaff.isVisible());
 				
 			}
 			
-		})
-		
-		JButton btnStaff = new JButton("Staff");
-		btnStaff.setBounds(477, 98, 117, 29);
-		getContentPane().add(btnStaff);
-		
-		JButton btnCustomers = new JButton("Customers");
-		btnCustomers.setBounds(477, 139, 117, 29);
-		getContentPane().add(btnCustomers);
-		
-		JButton btnStock = new JButton("Stock");
-		btnStock.setBounds(477, 180, 117, 29);
-		getContentPane().add(btnStock);
+		});
 	}
 }
