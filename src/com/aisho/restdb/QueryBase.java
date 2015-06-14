@@ -11,14 +11,14 @@ public class QueryBase {
 	 * 
 	 * @param con The connection object created to access the Oracle DB.
 	 * @param table The name of the table(s).
-	 * @param args The tuple to be inserted. This is an arbitrary length of objects separated by commas,
-	 * e.g. 2, "Server", 3.5
+	 * @param args The tuple to be inserted as a string. Remember to add '' around string values 
 	 */
-	protected void sqlInsert(Connection con, String table, Object... args) {
+	protected void sqlInsert(Connection con, String table, String args) {
 		
 		PreparedStatement ps;
 		try {			
-			ps = con.prepareStatement("INSERT INTO " + table + " VALUES ("+ args + ")");
+			ps = con.prepareStatement("INSERT INTO " + table + " VALUES("+ args + ")");
+			System.out.println("INSERT INTO " + table + " VALUES("+ args + ");");
 			ps.executeUpdate();
 
 			// commit work 
@@ -55,6 +55,7 @@ public class QueryBase {
 		PreparedStatement ps;
 		try {			
 			ps = con.prepareStatement("DELETE FROM " + table + " WHERE "+ whereClause);
+			System.out.println("DELETE FROM " + table + " WHERE "+ whereClause + ";");
 			ps.executeUpdate();
 
 			// commit work 
