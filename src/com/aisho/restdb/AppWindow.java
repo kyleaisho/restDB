@@ -12,13 +12,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.RowSpec;
-
-import net.miginfocom.swing.MigLayout;
-
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -101,7 +94,7 @@ public class AppWindow extends JFrame {
 		});
 		
 		final JButton btnStaff = new JButton("Staff");
-		btnStaff.setBounds(477, 137, 117, 29);
+		btnStaff.setBounds(477, 213, 117, 29);
 		getContentPane().add(btnStaff);
 		btnStaff.setVisible(false);
 		btnStaff.addActionListener(new ActionListener() {
@@ -114,7 +107,7 @@ public class AppWindow extends JFrame {
 		});
 		
 		JButton btnCustomers = new JButton("Customers");
-		btnCustomers.setBounds(477, 84, 117, 29);
+		btnCustomers.setBounds(477, 110, 117, 29);
 		getContentPane().add(btnCustomers);
 		btnCustomers.addActionListener(new ActionListener() {
 
@@ -126,7 +119,7 @@ public class AppWindow extends JFrame {
 		});
 		
 		JButton btnStock = new JButton("Stock");
-		btnStock.setBounds(477, 111, 117, 29);
+		btnStock.setBounds(477, 165, 117, 29);
 		getContentPane().add(btnStock);
 		
 		JButton btnOrder = new JButton("Order");
