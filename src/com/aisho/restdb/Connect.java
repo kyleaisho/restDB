@@ -4,10 +4,11 @@ import java.sql.*;
 public class Connect {
 	
 	private static java.sql.Connection con;
+	private static Connect connectionClass;
 	
-	public static void main(String[] args){
+	Connect(){
 		
-
+		connectionClass = this;
 		
 		try 
 		{
@@ -24,23 +25,39 @@ public class Connect {
 		try 
 		{
 			con = DriverManager.getConnection(connectURL,"ora_x1i8","a55386114");
+			
 			Statement st = con.createStatement();
 			String sql = "SELECT * FROM Staff";
 			ResultSet rs = st.executeQuery(sql);
 			while(rs.next()){
 				System.out.println(rs.getInt("SIN")+" " + rs.getString("NAME"));
 		}
-			st.close();
-
+		
 		}
 		catch (SQLException ex)
 		{
 			System.out.println(ex.getMessage()+ "Could not connect");
 
 		}
+	}
+		
+		public static Connect getInstance()
+		{
+			
+			if ( connectionClass == null )
+			{
+				connectionClass = new Connect();
+			}
+			return connectionClass;
+			
+		}
+		
+		public java.sql.Connection getConnection() {
+			return con;
+		}
 		
 		
 		
 	}
 	
-}
+
