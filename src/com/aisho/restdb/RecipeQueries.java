@@ -10,10 +10,14 @@ public class RecipeQueries extends QueryBase {
 	 * @param sin The sin of the staff member who added the recipe
 	 * @param ingredients A list of ingredients needed to make the recipe
 	 */
-	private void enterRecipe(Connection con, String rName, int sin, String ingredients) {
+	private void enterRecipe(String rName, int sin, String ingredients) {
 		// Will need to enter the ingredients:
 		//- as a list in the Recipes table
-		//- individual tuples in the Requires table
+		
+		ResultSet rs = sqlSelect("*", "Recipes", "");
+		sqlInsert("Recipes", "'" + rName + "'" + "," + "'" + ingredients + "'");
+		sqlInsert("Recipes_Created", "'" + rName + "'" + "," + sin);
+		
 	}
 	
 	/**
@@ -24,7 +28,7 @@ public class RecipeQueries extends QueryBase {
 	 * @param sin The new sin of the staff member who added the recipe
 	 * @param ingredients A new list of ingredients needed to make the recipe
 	 */
-	private void modifyRecipe(Connection con, String oldName, String newName, int sin, String ingredients) {
+	private void modifyRecipe(String oldName, String newName, int sin, String ingredients) {
 		// Will need to modify the ingredients:
 		//- in the list in the Recipes table
 		//- in the individual tuples in the Requires table
@@ -32,8 +36,10 @@ public class RecipeQueries extends QueryBase {
 	
 	//To be run from the main class. Insert anything you want to test here
 	protected void testRecipeQueries() {
-		Connection con = TestHelper.connect();
-		ResultSet rs = sqlSelect("*", "Recipe", "");
+		enterRecipe("Cheese", 779306521, "milk, holes");
+		ResultSet rs = sqlSelect("*", "Recipes", "");
 		printResultSet(rs);
+		ResultSet rs2 = sqlSelect("*", "Recipes_Created", "");
+		printResultSet(rs2);
 	}
 }
