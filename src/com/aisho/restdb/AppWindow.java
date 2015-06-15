@@ -55,7 +55,12 @@ public class AppWindow extends JFrame {
 	private JPanel stockCard;
 	private JPanel blankCard;
 	private CardLayout layout;
+	private JPanel consolePanel;
+	private JPanel blankConsoleCard;
+	private JPanel showConsoleCard;
+	private CardLayout consoleLayout;
 	private JTextPane textPane;
+	private JScrollPane jsp;
 	
 
 	/**
@@ -175,12 +180,10 @@ public class AppWindow extends JFrame {
 		btnOrder.setBounds(17, 76, 117, 29);
 		getContentPane().add(btnOrder);
 		
-		textPane = new JTextPane();
-		getContentPane().add(textPane);
-		
-		JScrollPane jsp = new JScrollPane(textPane);
-		jsp.setBounds(10, 379, 732, 181);
-		getContentPane().add(jsp);
+		consolePanel = new JPanel();
+		consolePanel.setBounds(10, 380, 764, 169);
+		getContentPane().add(consolePanel);
+		consolePanel.setLayout(new CardLayout(0, 0));
 		
 		btnOrder.addActionListener(new ActionListener() {
 
@@ -199,6 +202,7 @@ public class AppWindow extends JFrame {
 			}
 			
 		});
+		setUpConsolePanel();
 		
 		rdbtnAdministrator.addActionListener(new ActionListener() {
 
@@ -207,10 +211,12 @@ public class AppWindow extends JFrame {
 				//Toggle the button's visibility
 				btnStaff.setVisible(!btnStaff.isVisible());
 				
+				consoleLayout.next(consolePanel);
+				copySystemStream();
+				
 			}
 			
 		});
-		if (true) copySystemStream();
 	}
 
 	/**
@@ -256,6 +262,28 @@ public class AppWindow extends JFrame {
 		mainPanel.add(stockCard, STOCK);
 		stockCard.setLayout(null);
 			
+		
+	}
+	
+	/**
+	 * Console panel with a card layout so we can toggle between visible or not visible 
+	 * when toggled as the administrator
+	 */
+	private void setUpConsolePanel() {
+		blankConsoleCard = new JPanel();
+		showConsoleCard = new JPanel();
+		showConsoleCard.setBounds(10, 380, 764, 169);
+		consolePanel.add(blankConsoleCard, blankConsoleCard.getName());
+		consolePanel.add(showConsoleCard, showConsoleCard.getName());
+		consoleLayout = (CardLayout) consolePanel.getLayout();
+		consoleLayout.show(consolePanel, blankConsoleCard.getName());
+		showConsoleCard.setLayout(null);
+		
+		textPane = new JTextPane();
+		textPane.setBounds(10, 380, 764, 169);
+		jsp = new JScrollPane(textPane);
+		jsp.setBounds(6, 5, 720, 158);
+		showConsoleCard.add(jsp);
 		
 	}
 
@@ -314,7 +342,7 @@ public class AppWindow extends JFrame {
 
 	
 	/**
-	 * Overrides the system streams to write to text
+	 * Overrides the system streams to write to textPane
 	 */
 	private void copySystemStream() {
 		OutputStream os = new OutputStream() {
