@@ -309,6 +309,7 @@ public class AppWindow extends JFrame {
 			}
 		});
 	}
+
 	
 	/**
 	 * Overrides the system streams to write to text
@@ -316,6 +317,7 @@ public class AppWindow extends JFrame {
 	private void copySystemStream() {
 		OutputStream os = new OutputStream() {
 
+			
 			@Override
 			public void write(int b) throws IOException {
 				updateTextPanel(String.valueOf((char) b));
