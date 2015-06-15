@@ -6,6 +6,8 @@ import java.io.*;
 
 public class QueryBase {
 	
+	static java.sql.Connection con = Connect.getInstance().getConnection();
+	
 	/**
 	 * A basic insert query.
 	 * 
@@ -13,7 +15,7 @@ public class QueryBase {
 	 * @param table The name of the table(s).
 	 * @param args The tuple to be inserted as a string. Remember to add '' around string values 
 	 */
-	protected void sqlInsert(Connection con, String table, String args) {
+	protected void sqlInsert(String table, String args) {
 		
 		PreparedStatement ps;
 		try {			
@@ -50,7 +52,7 @@ public class QueryBase {
 	 * @param whereClause The SQL used in the where clause in the form of a string. Do not insert
 	 * WHERE or semicolons.
 	 */	
-	protected void sqlDelete(Connection con, String table, String whereClause) {
+	protected void sqlDelete(String table, String whereClause) {
 		
 		PreparedStatement ps;
 		try {			
@@ -89,11 +91,12 @@ public class QueryBase {
 	 * @param whereClause The SQL used in the where clause in the form of a string. Do not insert
 	 * WHERE or semicolons.
 	 */	
-	protected void sqlUpdate(Connection con, String table, String setClause, String whereClause) {
+	protected void sqlUpdate(String table, String setClause, String whereClause) {
 		
 		PreparedStatement ps;
 		try {			
 			ps = con.prepareStatement("UPDATE " + table + " SET " + setClause + " WHERE "+ whereClause);
+			System.out.println("UPDATE " + table + " SET " + setClause + " WHERE "+ whereClause + ";");
 			ps.executeUpdate();
 
 			// commit work 
@@ -129,7 +132,7 @@ public class QueryBase {
 	 * @return result The result of the Select query in the form of a ResultSet object. Check the Javadoc for
 	 * ResultSet for getter methods and other information.
 	 */	
-	protected ResultSet sqlSelect(Connection con, String selectClause, String table, String clause) {
+	protected ResultSet sqlSelect(String selectClause, String table, String clause) {
 ;
 		ResultSet result = null;
 		try {			
@@ -138,8 +141,9 @@ public class QueryBase {
                     ResultSet.CONCUR_UPDATABLE);
 			
 			result = stmt.executeQuery("SELECT " + selectClause + " FROM " + table + " " + clause);
+			System.out.println("SELECT " + selectClause + " FROM " + table + " " + clause + ";");
 			  
-			stmt.close();
+			//stmt.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -156,9 +160,20 @@ public class QueryBase {
 	 */
 	protected void printResultSet(ResultSet rs) {
 		try {
+			System.out.println("Fetching ResultSet metadata...");
 		    ResultSetMetaData rsmd = rs.getMetaData();
-		    System.out.println("querying SELECT * FROM XXX");
+		    System.out.println("Metadata retrieved.");
+		    
 		    int columnsNumber = rsmd.getColumnCount();
+		    
+		    int size = 0;
+		    
+		        rs.last();
+		        size = rs.getRow();
+		        rs.beforeFirst();
+		        
+		        System.out.println(size);
+		    
 		    while (rs.next()) {
 		        for (int i = 1; i <= columnsNumber; i++) {
 		            if (i > 1) System.out.print(",  ");

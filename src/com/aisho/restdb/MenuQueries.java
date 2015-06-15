@@ -37,7 +37,7 @@ public class MenuQueries extends QueryBase {
 	//To be run from the main class. Insert anything you want to test here
 	protected void testMenuQueries() {
 		Connection con = TestHelper.connect();
-		ResultSet rs = sqlSelect(con, "*", "Recipe", "");
+		ResultSet rs = sqlSelect( "*", "Recipe", "");
 		printResultSet(rs);
 	}
 }
