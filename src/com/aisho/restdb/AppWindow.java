@@ -300,6 +300,8 @@ public class AppWindow extends JFrame {
 			public void run() {
 				Document document = textPane.getDocument();
 				try {
+					if (text.length() > 2)
+						document.insertString(document.getLength(), CONSOLE_TITLE, null);
 					document.insertString(document.getLength(), text, null);
 				}
 				catch (BadLocationException ble){
