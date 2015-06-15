@@ -94,6 +94,7 @@ public class QueryBase {
 		PreparedStatement ps;
 		try {			
 			ps = con.prepareStatement("UPDATE " + table + " SET " + setClause + " WHERE "+ whereClause);
+			System.out.println("UPDATE " + table + " SET " + setClause + " WHERE "+ whereClause + ";");
 			ps.executeUpdate();
 
 			// commit work 
@@ -138,8 +139,9 @@ public class QueryBase {
                     ResultSet.CONCUR_UPDATABLE);
 			
 			result = stmt.executeQuery("SELECT " + selectClause + " FROM " + table + " " + clause);
+			System.out.println("SELECT " + selectClause + " FROM " + table + " " + clause + ";");
 			  
-			stmt.close();
+			//stmt.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -156,9 +158,20 @@ public class QueryBase {
 	 */
 	protected void printResultSet(ResultSet rs) {
 		try {
+			System.out.println("Fetching ResultSet metadata...");
 		    ResultSetMetaData rsmd = rs.getMetaData();
-		    System.out.println("querying SELECT * FROM XXX");
+		    System.out.println("Metadata retrieved.");
+		    
 		    int columnsNumber = rsmd.getColumnCount();
+		    
+		    int size = 0;
+		    
+		        rs.last();
+		        size = rs.getRow();
+		        rs.beforeFirst();
+		        
+		        System.out.println(size);
+		    
 		    while (rs.next()) {
 		        for (int i = 1; i <= columnsNumber; i++) {
 		            if (i > 1) System.out.print(",  ");
