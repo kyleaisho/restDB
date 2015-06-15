@@ -6,6 +6,8 @@ import java.io.*;
 
 public class QueryBase {
 	
+	static java.sql.Connection con = Connect.getInstance().getConnection();
+	
 	/**
 	 * A basic insert query.
 	 * 
@@ -13,7 +15,7 @@ public class QueryBase {
 	 * @param table The name of the table(s).
 	 * @param args The tuple to be inserted as a string. Remember to add '' around string values 
 	 */
-	protected void sqlInsert(Connection con, String table, String args) {
+	protected void sqlInsert(String table, String args) {
 		
 		PreparedStatement ps;
 		try {			
@@ -50,7 +52,7 @@ public class QueryBase {
 	 * @param whereClause The SQL used in the where clause in the form of a string. Do not insert
 	 * WHERE or semicolons.
 	 */	
-	protected void sqlDelete(Connection con, String table, String whereClause) {
+	protected void sqlDelete(String table, String whereClause) {
 		
 		PreparedStatement ps;
 		try {			
@@ -89,7 +91,7 @@ public class QueryBase {
 	 * @param whereClause The SQL used in the where clause in the form of a string. Do not insert
 	 * WHERE or semicolons.
 	 */	
-	protected void sqlUpdate(Connection con, String table, String setClause, String whereClause) {
+	protected void sqlUpdate(String table, String setClause, String whereClause) {
 		
 		PreparedStatement ps;
 		try {			
@@ -130,7 +132,7 @@ public class QueryBase {
 	 * @return result The result of the Select query in the form of a ResultSet object. Check the Javadoc for
 	 * ResultSet for getter methods and other information.
 	 */	
-	protected ResultSet sqlSelect(Connection con, String selectClause, String table, String clause) {
+	protected ResultSet sqlSelect(String selectClause, String table, String clause) {
 ;
 		ResultSet result = null;
 		try {			
