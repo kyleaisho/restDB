@@ -189,7 +189,7 @@ public class AppWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Order Click " + txtTableNumber.getText() + " " + txtCustomerId.getText() + " " + txtMenuItem.getText());
+				System.out.println(txtTableNumber.getText() + " " + txtCustomerId.getText() + " " + txtMenuItem.getText());
 			}
 			
 		});
