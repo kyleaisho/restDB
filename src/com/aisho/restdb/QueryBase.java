@@ -15,7 +15,7 @@ public class QueryBase {
 	 * @param table The name of the table(s).
 	 * @param args The tuple to be inserted as a string. Remember to add '' around string values 
 	 */
-	protected void sqlInsert(String table, String args) {
+	protected static void sqlInsert(String table, String args) {
 		
 		PreparedStatement ps;
 		try {			
@@ -52,11 +52,11 @@ public class QueryBase {
 	 * @param whereClause The SQL used in the where clause in the form of a string. Do not insert
 	 * WHERE or semicolons.
 	 */	
-	protected void sqlDelete(String table, String whereClause) {
+	protected static void sqlDelete(String table, String whereClause) {
 		
 		PreparedStatement ps;
 		try {			
-			ps = con.prepareStatement("DELETE FROM " + table + " WHERE "+ whereClause);
+			ps = con.prepareStatement("delete from " + table + " where "+ whereClause);
 			System.out.println("DELETE FROM " + table + " WHERE "+ whereClause + ";");
 			ps.executeUpdate();
 

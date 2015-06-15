@@ -10,7 +10,6 @@ public class StockQueries extends QueryBase {
 	 * @param unitPrice The unit price of the new stock item
 	 */
 	private void addStock(int sName, int qty, float unitPrice) {
-		
 	}
 	
 	/**
