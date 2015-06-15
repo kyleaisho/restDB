@@ -30,7 +30,8 @@ CID Integer,
 serv_date timestamp,
 SIN CHAR(11),
 primary key(CID, serv_date),
-foreign key (SIN) references Staff(SIN));
+foreign key (SIN) references Staff(SIN)
+ON DELETE CASCADE);
 
 CREATE TABLE Recipes_Created(
 rName CHAR(25),
