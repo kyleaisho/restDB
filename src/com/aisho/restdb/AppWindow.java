@@ -29,8 +29,9 @@ public class AppWindow extends JFrame {
 	
 	private static final String RECIPE = "Recipe";
 	private static final String STAFF = "Staff";
-	private static final String MENU = "Menu";
+	private static final String CUSTOMER = "Customers";
 	private static final String STOCK = "Stock";
+	private static final String HOME = "Home";
 	
 	private JTextField txtTableNumber;
 	private JTextField txtCustomerId;
@@ -38,9 +39,11 @@ public class AppWindow extends JFrame {
 	
 	private static int numOfCards = 0;
 	private JPanel recipeCard;
-	private JPanel menuCard;
+	private JPanel customerCard;
 	private JPanel staffCard;
 	private JPanel stockCard;
+	private JPanel blankCard;
+	private CardLayout layout;
 	
 
 	/**
@@ -114,8 +117,7 @@ public class AppWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Recipe Click");
-				recipeCard.setVisible(true);
+				layout.show(mainPanel, RECIPE);
 			}
 			
 		});
@@ -128,7 +130,7 @@ public class AppWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Staff Click");
+				layout.show(mainPanel, STAFF);
 			}
 			
 		});
@@ -140,7 +142,7 @@ public class AppWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Customers Click");
+				layout.show(mainPanel, CUSTOMER);
 			}
 			
 		});
@@ -148,6 +150,14 @@ public class AppWindow extends JFrame {
 		JButton btnStock = new JButton("Stock");
 		btnStock.setBounds(453, 76, 117, 29);
 		getContentPane().add(btnStock);
+		btnStock.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				layout.show(mainPanel, STOCK);
+			}
+			
+		});
 		
 		JButton btnOrder = new JButton("Order");
 		btnOrder.setBounds(17, 76, 117, 29);
@@ -189,30 +199,73 @@ public class AppWindow extends JFrame {
 	 */
 	private void setUpCards(JPanel mainPanel) {
 		
-		recipeCard = new JPanel();
-		recipeCard.setVisible(false);
+		blankCard = new JPanel();
 		numOfCards++;
 		
-		menuCard = new JPanel();
-		menuCard.setVisible(false);
+		recipeCard = new JPanel();
+		numOfCards++;
+		
+		customerCard = new JPanel();
 		numOfCards++;
 		
 		staffCard = new JPanel();
-		staffCard.setVisible(false);
 		numOfCards++;
 		
 		stockCard = new JPanel();
-		stockCard.setVisible(false);
 		numOfCards++;
 		
-		mainPanel.add(recipeCard, RECIPE);
+		layout = (CardLayout) mainPanel.getLayout();
+		layout.show(mainPanel, HOME);
 		
-		JLabel lblRecipe = new JLabel(RECIPE);
-		recipeCard.add(lblRecipe);
-		mainPanel.add(menuCard, MENU);
+		
+		// Create the individual Cards
+		setupRecipeCard();
+		setupCustomerCard();
+		setpStaffCard();
+		setupStockCard();
+		
+		
+		mainPanel.add(blankCard, HOME);
+		mainPanel.add(recipeCard, RECIPE);
+		recipeCard.setLayout(null);
+		
+		mainPanel.add(customerCard, CUSTOMER);
+		customerCard.setLayout(null);
 		mainPanel.add(staffCard, STAFF);
+		staffCard.setLayout(null);
 		mainPanel.add(stockCard, STOCK);
+		stockCard.setLayout(null);
 			
 		
+	}
+
+	private void setupStockCard() {
+		JLabel lblStock = new JLabel(STOCK);
+		lblStock.setHorizontalAlignment(SwingConstants.CENTER);
+		lblStock.setBounds(206, 16, 328, 16);
+		stockCard.add(lblStock);	
+		
+	}
+
+	private void setpStaffCard() {
+		JLabel lblStaff = new JLabel(STAFF);
+		lblStaff.setHorizontalAlignment(SwingConstants.CENTER);
+		lblStaff.setBounds(206, 16, 328, 16);
+		staffCard.add(lblStaff);
+		
+	}
+
+	private void setupCustomerCard() {
+		JLabel lblMenu = new JLabel(CUSTOMER);
+		lblMenu.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMenu.setBounds(206, 16, 328, 16);
+		customerCard.add(lblMenu);
+	}
+
+	private void setupRecipeCard() {
+		JLabel lblRecipes = new JLabel(RECIPE);
+		lblRecipes.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRecipes.setBounds(206, 16, 328, 16);
+		recipeCard.add(lblRecipes);	
 	}
 }
