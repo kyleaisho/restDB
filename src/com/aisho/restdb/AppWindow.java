@@ -7,6 +7,8 @@ import java.awt.Panel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import javax.swing.JRadioButton;
 
 import java.awt.GridLayout;
@@ -14,18 +16,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 
 import java.awt.Font;
 import java.awt.CardLayout;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
+import javax.swing.JTextPane;
+import javax.swing.JScrollBar;
 
 public class AppWindow extends JFrame {
 	
 	private static final int HEIGHT = 600;
 	private static final int WIDTH = 800;
 	private static final String TITLE = "Restaurant DB";
+	private static final String CONSOLE_TITLE = "(RestDB) -> ";
 	
 	private static final String RECIPE = "Recipe";
 	private static final String STAFF = "Staff";
@@ -44,6 +55,7 @@ public class AppWindow extends JFrame {
 	private JPanel stockCard;
 	private JPanel blankCard;
 	private CardLayout layout;
+	private JTextPane textPane;
 	
 
 	/**
@@ -73,7 +85,7 @@ public class AppWindow extends JFrame {
 		
 
 		final JPanel mainPanel = new JPanel();
-		mainPanel.setBounds(10, 116, 764, 434);
+		mainPanel.setBounds(10, 116, 764, 252);
 		getContentPane().add(mainPanel);
 		mainPanel.setLayout(new CardLayout(0, 0));
 		
@@ -163,6 +175,13 @@ public class AppWindow extends JFrame {
 		btnOrder.setBounds(17, 76, 117, 29);
 		getContentPane().add(btnOrder);
 		
+		textPane = new JTextPane();
+		getContentPane().add(textPane);
+		
+		JScrollPane jsp = new JScrollPane(textPane);
+		jsp.setBounds(10, 379, 732, 181);
+		getContentPane().add(jsp);
+		
 		btnOrder.addActionListener(new ActionListener() {
 
 			@Override
@@ -176,7 +195,7 @@ public class AppWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Stock Click");
+				layout.show(mainPanel, STOCK);
 			}
 			
 		});
@@ -191,8 +210,9 @@ public class AppWindow extends JFrame {
 			}
 			
 		});
+		if (true) copySystemStream();
 	}
-	
+
 	/**
 	 * Set up the cards for a jpanel
 	 * @param mainPanel
@@ -267,5 +287,54 @@ public class AppWindow extends JFrame {
 		lblRecipes.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRecipes.setBounds(206, 16, 328, 16);
 		recipeCard.add(lblRecipes);	
+	}
+	
+	/**
+	 * Updates the text pane with new text
+	 * @param text
+	 */
+	private void updateTextPanel(final String text) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				Document document = textPane.getDocument();
+				try {
+					document.insertString(document.getLength(), text, null);
+				}
+				catch (BadLocationException ble){
+					System.out.println(ble.getMessage());
+				}
+				textPane.setCaretPosition(document.getLength() - 1);
+			}
+		});
+	}
+	
+	/**
+	 * Overrides the system streams to write to text
+	 */
+	private void copySystemStream() {
+		OutputStream os = new OutputStream() {
+
+			@Override
+			public void write(int b) throws IOException {
+				updateTextPanel(String.valueOf((char) b));
+				
+			}
+			
+			@Override
+		    public void write(byte[] b, int off, int len) throws IOException {
+		      updateTextPanel(new String(b, off, len));
+		    }
+		 
+		    @Override
+		    public void write(byte[] b) throws IOException {
+
+		    	write(b, 0, b.length);
+		    }
+		};
+		
+		System.setOut(new PrintStream(os, true));
+		System.setErr(new PrintStream(os, true));
 	}
 }
