@@ -17,6 +17,11 @@ public class TestHelper {
     		
 
     	try {
+    		
+    		// Load the Oracle JDBC driver. Requires the classes12.zip folder added as an External
+    		// JAR into your local RestDB project
+    		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+
     		Connection con;
     		
     		if (username == "ora_xxxx") {
