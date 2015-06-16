@@ -212,7 +212,7 @@ public class AppWindow extends JFrame {
 		
 		txtCsid = new JTextField();
 		txtCsid.setText("csID");
-		txtCsid.setBounds(249, 2, 134, 28);
+		txtCsid.setBounds(268, 3, 117, 28);
 		getContentPane().add(txtCsid);
 		txtCsid.setColumns(10);
 		
