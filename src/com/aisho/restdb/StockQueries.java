@@ -43,7 +43,9 @@ public class StockQueries extends QueryBase {
 	 * @param qty The new quantity of the stock item
 	 * @param unitPrice The new unit price of the stock item
 	 */
-	private void modifyStock(int sName, int qty, float unitPrice) {
+	protected static void modifyStock(String item) {
+		sqlUpdate("Stock", "Stock.Quantity = Stock.Quantity - 1 ","Sname = "+ item);
+		
 		//Can be used to add or subtract from the current stock
 		//unitPrice might be unnecessary if we never need to modify it? 
 	}

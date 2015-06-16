@@ -139,9 +139,8 @@ public class QueryBase {
 			Statement stmt = con.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-			
-			result = stmt.executeQuery("SELECT " + selectClause + " FROM " + table + " " + clause);
 			System.out.println("SELECT " + selectClause + " FROM " + table + " " + clause + ";");
+			result = stmt.executeQuery("SELECT " + selectClause + " FROM " + table + " " + clause);
 			  
 			//stmt.close();
 			
