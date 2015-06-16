@@ -186,4 +186,14 @@ public class QueryBase {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Because SQL likes single quotes, call this function to
+	 * surround your string with single quotes
+	 * @param s your string to be surrounded 
+	 * @return	"'s'"
+	 */
+	protected static String sqlStringify(String s) {
+		return "'".concat(s).concat("'");
+	}
 }

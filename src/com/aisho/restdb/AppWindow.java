@@ -7,6 +7,9 @@ import java.awt.Panel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.JRadioButton;
@@ -15,6 +18,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -27,9 +31,14 @@ import java.awt.CardLayout;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
+import javax.swing.JList;
+import javax.swing.JFormattedTextField;
+import javax.swing.JTable;
 
 public class AppWindow extends JFrame {
 	
@@ -61,6 +70,13 @@ public class AppWindow extends JFrame {
 	private CardLayout consoleLayout;
 	private JTextPane textPane;
 	private JScrollPane jsp;
+	private JTextField txtCsid;
+	private JTextField txtStudentid;
+	
+	// Query objects
+	private static QueryBase qb = null;
+	private DefaultListModel dlm;
+	private JTable staffTable;
 	
 
 	/**
@@ -96,8 +112,8 @@ public class AppWindow extends JFrame {
 		
 		setUpCards(mainPanel);
 		
-		JRadioButton rdbtnAdministrator = new JRadioButton("Administrator");
-		rdbtnAdministrator.setBounds(453, 6, 141, 23);
+		final JRadioButton rdbtnAdministrator = new JRadioButton("Administrator");
+		rdbtnAdministrator.setBounds(114, 2, 141, 23);
 		getContentPane().add(rdbtnAdministrator);
 		
 		
@@ -127,7 +143,7 @@ public class AppWindow extends JFrame {
 		
 		
 		//Create buttons
-		JButton btnRecipes = new JButton("Recipes");
+		final JButton btnRecipes = new JButton("Recipes");
 		btnRecipes.setBounds(453, 36, 117, 29);
 		getContentPane().add(btnRecipes);
 		btnRecipes.addActionListener(new ActionListener() {
@@ -135,6 +151,7 @@ public class AppWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				layout.show(mainPanel, RECIPE);
+				
 			}
 			
 		});
@@ -142,17 +159,17 @@ public class AppWindow extends JFrame {
 		final JButton btnStaff = new JButton("Staff");
 		btnStaff.setBounds(580, 76, 117, 29);
 		getContentPane().add(btnStaff);
-		btnStaff.setVisible(false);
 		btnStaff.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				layout.show(mainPanel, STAFF);
+				populateStaffCard();
 			}
 			
 		});
 		
-		JButton btnCustomers = new JButton("Customers");
+		final JButton btnCustomers = new JButton("Customers");
 		btnCustomers.setBounds(580, 36, 117, 29);
 		getContentPane().add(btnCustomers);
 		btnCustomers.addActionListener(new ActionListener() {
@@ -164,7 +181,7 @@ public class AppWindow extends JFrame {
 			
 		});
 		
-		JButton btnStock = new JButton("Stock");
+		final JButton btnStock = new JButton("Stock");
 		btnStock.setBounds(453, 76, 117, 29);
 		getContentPane().add(btnStock);
 		btnStock.addActionListener(new ActionListener() {
@@ -180,10 +197,49 @@ public class AppWindow extends JFrame {
 		btnOrder.setBounds(17, 76, 117, 29);
 		getContentPane().add(btnOrder);
 		
+		
+		// Set all buttons to inactive until DB connect happens
+		btnRecipes.setEnabled(false);
+		btnStock.setEnabled(false);
+		btnStaff.setEnabled(false);
+		btnOrder.setEnabled(false);
+		btnCustomers.setEnabled(false);
+		
 		consolePanel = new JPanel();
 		consolePanel.setBounds(10, 380, 764, 169);
 		getContentPane().add(consolePanel);
 		consolePanel.setLayout(new CardLayout(0, 0));
+		
+		txtCsid = new JTextField();
+		txtCsid.setText("csID");
+		txtCsid.setBounds(249, 2, 134, 28);
+		getContentPane().add(txtCsid);
+		txtCsid.setColumns(10);
+		
+		txtStudentid = new JTextField();
+		txtStudentid.setText("studentID");
+		txtStudentid.setBounds(395, 2, 134, 28);
+		getContentPane().add(txtStudentid);
+		txtStudentid.setColumns(10);
+		
+		final JButton btnLogin = new JButton("Login");
+		btnLogin.setBounds(536, 2, 117, 29);
+		getContentPane().add(btnLogin);
+		btnLogin.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Connect.loginToDB(txtCsid.getText().toString(), txtStudentid.getText().toString()); 
+				Connect.getInstance();
+				btnLogin.setEnabled(false);
+				btnRecipes.setEnabled(true);
+				btnCustomers.setEnabled(true);
+				btnStock.setEnabled(true);
+				if (rdbtnAdministrator.isSelected())
+					btnStaff.setEnabled(true);
+			}
+			
+		});
 		
 		btnOrder.addActionListener(new ActionListener() {
 
@@ -209,7 +265,7 @@ public class AppWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Toggle the button's visibility
-				btnStaff.setVisible(!btnStaff.isVisible());
+				btnStaff.setEnabled(!btnStaff.isEnabled() && btnRecipes.isEnabled());
 				
 				consoleLayout.next(consolePanel);
 				copySystemStream();
@@ -259,8 +315,31 @@ public class AppWindow extends JFrame {
 		customerCard.setLayout(null);
 		mainPanel.add(staffCard, STAFF);
 		staffCard.setLayout(null);
+		
+		staffTable = new JTable();
+		staffTable.setBounds(0, 37, 764, 215);
+		
+		JScrollPane scrollPane = new JScrollPane(staffTable);
+		scrollPane.setBounds(0, 37, 764, 215);
+		staffCard.add(scrollPane);
+		
+		JButton btnAddStaff = new JButton("Add Staff");
+		btnAddStaff.setBounds(647, 6, 117, 29);
+		staffCard.add(btnAddStaff);
+		btnAddStaff.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AddStaff as = new AddStaff();
+				as.addStaff();
+				populateStaffCard();
+			}
+			
+		});
+		
 		mainPanel.add(stockCard, STOCK);
 		stockCard.setLayout(null);
+		
 			
 		
 	}
@@ -282,7 +361,7 @@ public class AppWindow extends JFrame {
 		textPane = new JTextPane();
 		textPane.setBounds(10, 380, 764, 169);
 		jsp = new JScrollPane(textPane);
-		jsp.setBounds(6, 5, 720, 158);
+		jsp.setBounds(0, 0, 764, 169);
 		showConsoleCard.add(jsp);
 		
 	}
@@ -368,5 +447,25 @@ public class AppWindow extends JFrame {
 		
 		System.setOut(new PrintStream(os, true));
 		System.setErr(new PrintStream(os, true));
+	}
+	
+	/**
+	 * Adds all the staff to the staff card
+	 */
+	public void populateStaffCard() {
+		Staff s = new Staff();
+		ArrayList<Staff> staff = s.getStaffFromDB();
+		int len = staff.size();
+		DefaultTableModel model = new DefaultTableModel();
+		staffTable.setModel(model);
+		model.addColumn(new String [] {"SIN"});
+		model.addColumn(new String [] {"Name"});
+		String [] header = new String [] {"SIN" , "Name"};
+		model.setColumnIdentifiers(header);
+		for (int i = 0; i < staff.size(); i++) {
+			Staff st = staff.get(i);
+			model.addRow(new String [] {st.getSin(), st.getName()});
+		}
+		
 	}
 }

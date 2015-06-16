@@ -5,6 +5,8 @@ public class Connect {
 	
 	private static java.sql.Connection con;
 	private static Connect connectionClass;
+	private static String uname = "";
+	private static String pword = "";
 	
 	/**
 	  * Constructor.
@@ -30,7 +32,9 @@ public class Connect {
 
 		try 
 		{
-			con = DriverManager.getConnection(connectURL,"ora_x1i8","a55386114");
+			String login = "ora_".concat(uname);
+			String pass = "a".concat(pword);
+			con = DriverManager.getConnection(connectURL,login,pass);
 		
 		}
 		catch (SQLException ex)
@@ -59,8 +63,17 @@ public class Connect {
 		 * Gets our connection code from the connection we made
 		 */
 		
-		public java.sql.Connection getConnection() {
+		public static java.sql.Connection getConnection() {
 			return con;
+		}
+		
+		/**
+		 * Sets the username and password for the db
+		 * @return 
+		 */
+		public static void loginToDB(String u, String p) {
+			uname = u;
+			pword = p;
 		}
 		
 		
