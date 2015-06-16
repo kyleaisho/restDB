@@ -202,7 +202,7 @@ INSERT INTO Recipes
 VALUES('Duck Broth', 'Onions, Garlic, Thyme, Duck Breast, Duck Bones');
 
 INSERT INTO Recipes
-VALUES('Chocolate Cake', 'Cake Mix, Coconut Frosting, Vegetable Oil, Butter, Sugar, Flour, Rhubarb, Licorice');
+VALUES('Chocolate Cake', 'Cake Mix, Pecan Frosting, Vegetable Oil, Butter, Sugar, Flour, Rhubarb, Licorice');
 
 INSERT INTO Recipes_Created
 VALUES('Bouillabaisse', 550841266);
