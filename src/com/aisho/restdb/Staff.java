@@ -15,6 +15,11 @@ public class Staff {
 	
 	public Staff() {}
 	
+	/**
+	 * Constructor
+	 * @param n name of the staffer
+	 * @param s sin of the staffer
+	 */
 	public Staff(String n, String s) {
 		name = n;
 		sin = s;

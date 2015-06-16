@@ -326,6 +326,16 @@ public class AppWindow extends JFrame {
 		JButton btnAddStaff = new JButton("Add Staff");
 		btnAddStaff.setBounds(647, 6, 117, 29);
 		staffCard.add(btnAddStaff);
+		btnAddStaff.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AddStaff as = new AddStaff();
+				as.addStaff();
+				populateStaffCard();
+			}
+			
+		});
 		
 		mainPanel.add(stockCard, STOCK);
 		stockCard.setLayout(null);
