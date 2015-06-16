@@ -324,17 +324,31 @@ public class AppWindow extends JFrame {
 		staffCard.add(scrollPane);
 		
 		JButton btnAddStaff = new JButton("Add Staff");
-		btnAddStaff.setBounds(647, 6, 117, 29);
+		btnAddStaff.setBounds(514, 6, 117, 29);
 		staffCard.add(btnAddStaff);
+
 		btnAddStaff.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddStaff as = new AddStaff();
+				ChangeStaff as = new ChangeStaff();
 				as.addStaff();
 				populateStaffCard();
 			}
 			
+		});
+		
+		JButton btnDelSelected = new JButton("Del Selected");
+		btnDelSelected.setBounds(643, 6, 117, 29);
+		staffCard.add(btnDelSelected);
+		btnDelSelected.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ChangeStaff cs = new ChangeStaff();
+				int sel = staffTable.getSelectedRow();
+				cs.delStaff(staffTable.getValueAt(sel, 0).toString());
+				populateStaffCard();
+			}
 		});
 		
 		mainPanel.add(stockCard, STOCK);
@@ -463,8 +477,8 @@ public class AppWindow extends JFrame {
 		String [] header = new String [] {"SIN" , "Name"};
 		model.setColumnIdentifiers(header);
 		for (int i = 0; i < staff.size(); i++) {
-			Staff st = staff.get(i);
-			model.addRow(new String [] {st.getSin(), st.getName()});
+			final Staff st = staff.get(i);
+			model.addRow(new Object [] {st.getSin(), st.getName()});
 		}
 		
 	}
