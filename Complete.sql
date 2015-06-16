@@ -9,6 +9,7 @@ drop table Recipes;
 drop table Stock;
 drop table Staff;
 
+
 CREATE TABLE Staff(
  SIN CHAR(11),
  Name CHAR(25),
@@ -29,19 +30,22 @@ CID Integer,
 serv_date timestamp,
 SIN CHAR(11),
 primary key(CID, serv_date),
-foreign key (SIN) references Staff(SIN));
+foreign key (SIN) references Staff(SIN)
+ON DELETE CASCADE);
 
 CREATE TABLE Recipes_Created(
 rName CHAR(25),
 SIN CHAR(11),
 primary key(rName, SIN),
-foreign key (SIN) references Staff(SIN));
+foreign key (SIN) references Staff(SIN)
+ON DELETE CASCADE);
 
 CREATE TABLE Recipe_To_Menu(
 rName Char(25),
 mName Char(25) unique,
 primary key(rName, mName),
-foreign key (rName) references Recipes(rName));
+foreign key (rName) references Recipes(rName)
+ON DELETE CASCADE);
 
 CREATE TABLE Menu_Price(
 rName CHAR(25),
@@ -56,7 +60,8 @@ order_date TIMESTAMP,
 mName CHAR(25),
 primary key(ID,CID),
 foreign key (CID) references Customer(CID),
-foreign key (mName) references Recipe_To_Menu(mName));
+foreign key (mName) references Recipe_To_Menu(mName)
+ON DELETE CASCADE);
 
 
 CREATE TABLE Stock(

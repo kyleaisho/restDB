@@ -27,9 +27,12 @@ import java.awt.CardLayout;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.sql.SQLException;
 
 import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
+import javax.swing.JList;
+import javax.swing.JFormattedTextField;
 
 public class AppWindow extends JFrame {
 	
@@ -61,6 +64,11 @@ public class AppWindow extends JFrame {
 	private CardLayout consoleLayout;
 	private JTextPane textPane;
 	private JScrollPane jsp;
+	private JTextField txtCsid;
+	private JTextField txtStudentid;
+	
+	// Query objects
+	private static QueryBase qb = null;
 	
 
 	/**
@@ -96,8 +104,8 @@ public class AppWindow extends JFrame {
 		
 		setUpCards(mainPanel);
 		
-		JRadioButton rdbtnAdministrator = new JRadioButton("Administrator");
-		rdbtnAdministrator.setBounds(453, 6, 141, 23);
+		final JRadioButton rdbtnAdministrator = new JRadioButton("Administrator");
+		rdbtnAdministrator.setBounds(114, 2, 141, 23);
 		getContentPane().add(rdbtnAdministrator);
 		
 		
@@ -127,7 +135,7 @@ public class AppWindow extends JFrame {
 		
 		
 		//Create buttons
-		JButton btnRecipes = new JButton("Recipes");
+		final JButton btnRecipes = new JButton("Recipes");
 		btnRecipes.setBounds(453, 36, 117, 29);
 		getContentPane().add(btnRecipes);
 		btnRecipes.addActionListener(new ActionListener() {
@@ -135,6 +143,7 @@ public class AppWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				layout.show(mainPanel, RECIPE);
+				
 			}
 			
 		});
@@ -142,7 +151,6 @@ public class AppWindow extends JFrame {
 		final JButton btnStaff = new JButton("Staff");
 		btnStaff.setBounds(580, 76, 117, 29);
 		getContentPane().add(btnStaff);
-		btnStaff.setVisible(false);
 		btnStaff.addActionListener(new ActionListener() {
 
 			@Override
@@ -152,7 +160,7 @@ public class AppWindow extends JFrame {
 			
 		});
 		
-		JButton btnCustomers = new JButton("Customers");
+		final JButton btnCustomers = new JButton("Customers");
 		btnCustomers.setBounds(580, 36, 117, 29);
 		getContentPane().add(btnCustomers);
 		btnCustomers.addActionListener(new ActionListener() {
@@ -164,7 +172,7 @@ public class AppWindow extends JFrame {
 			
 		});
 		
-		JButton btnStock = new JButton("Stock");
+		final JButton btnStock = new JButton("Stock");
 		btnStock.setBounds(453, 76, 117, 29);
 		getContentPane().add(btnStock);
 		btnStock.addActionListener(new ActionListener() {
@@ -180,10 +188,49 @@ public class AppWindow extends JFrame {
 		btnOrder.setBounds(17, 76, 117, 29);
 		getContentPane().add(btnOrder);
 		
+		
+		// Set all buttons to inactive until DB connect happens
+		btnRecipes.setEnabled(false);
+		btnStock.setEnabled(false);
+		btnStaff.setEnabled(false);
+		btnOrder.setEnabled(false);
+		btnCustomers.setEnabled(false);
+		
 		consolePanel = new JPanel();
 		consolePanel.setBounds(10, 380, 764, 169);
 		getContentPane().add(consolePanel);
 		consolePanel.setLayout(new CardLayout(0, 0));
+		
+		txtCsid = new JTextField();
+		txtCsid.setText("csID");
+		txtCsid.setBounds(249, 2, 134, 28);
+		getContentPane().add(txtCsid);
+		txtCsid.setColumns(10);
+		
+		txtStudentid = new JTextField();
+		txtStudentid.setText("studentID");
+		txtStudentid.setBounds(395, 2, 134, 28);
+		getContentPane().add(txtStudentid);
+		txtStudentid.setColumns(10);
+		
+		final JButton btnLogin = new JButton("Login");
+		btnLogin.setBounds(536, 2, 117, 29);
+		getContentPane().add(btnLogin);
+		btnLogin.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Connect.loginToDB(txtCsid.getText().toString(), txtStudentid.getText().toString()); 
+				Connect.getInstance();
+				btnLogin.setEnabled(false);
+				btnRecipes.setEnabled(true);
+				btnCustomers.setEnabled(true);
+				btnStock.setEnabled(true);
+				if (rdbtnAdministrator.isSelected())
+					btnStaff.setEnabled(true);
+			}
+			
+		});
 		
 		btnOrder.addActionListener(new ActionListener() {
 
@@ -209,7 +256,7 @@ public class AppWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Toggle the button's visibility
-				btnStaff.setVisible(!btnStaff.isVisible());
+				btnStaff.setEnabled(!btnStaff.isEnabled() && btnRecipes.isEnabled());
 				
 				consoleLayout.next(consolePanel);
 				copySystemStream();
@@ -259,6 +306,13 @@ public class AppWindow extends JFrame {
 		customerCard.setLayout(null);
 		mainPanel.add(staffCard, STAFF);
 		staffCard.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(6, 35, 752, 211);
+		staffCard.add(panel);
+		
+		JList list = new JList();
+		panel.add(list);
 		mainPanel.add(stockCard, STOCK);
 		stockCard.setLayout(null);
 			

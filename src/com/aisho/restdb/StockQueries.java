@@ -9,8 +9,33 @@ public class StockQueries extends QueryBase {
 	 * @param qty The quantity of the new stock item
 	 * @param unitPrice The unit price of the new stock item
 	 */
-	private void addStock(int sName, int qty, float unitPrice) {
-		
+	protected static void addStock(String sName, int qty, float unitPrice) {
+		ResultSet rs=sqlSelect("sName,Quantity","Stock","");
+		boolean haveIt = false;
+		int howMuch = 0;
+		try {
+			while(rs.next()){
+				System.out.println(sName);
+				System.out.println("'".concat(rs.getString(1)).trim().concat("'"));
+				System.out.println("'".concat(rs.getString(1)).trim().concat("'").compareTo(sName));
+				if("'".concat(rs.getString(1)).trim().concat("'").compareTo(sName)==0){
+					haveIt=true;
+					howMuch=rs.getInt(2);
+					break;
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(haveIt == true){
+			int amount = howMuch + qty;
+			sqlUpdate("Stock", "Quantity = "+ amount , "sName = "+sName);
+		}
+		else{
+			sqlInsert("Stock",sName + "," + qty + "," + unitPrice);
+		}
+	
 	}
 	
 	/**
