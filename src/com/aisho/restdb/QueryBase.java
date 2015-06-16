@@ -15,7 +15,7 @@ public class QueryBase {
 	 * @param table The name of the table(s).
 	 * @param args The tuple to be inserted as a string. Remember to add '' around string values 
 	 */
-	protected void sqlInsert(String table, String args) {
+	protected static void sqlInsert(String table, String args) {
 		
 		PreparedStatement ps;
 		try {			
@@ -52,11 +52,11 @@ public class QueryBase {
 	 * @param whereClause The SQL used in the where clause in the form of a string. Do not insert
 	 * WHERE or semicolons.
 	 */	
-	protected void sqlDelete(String table, String whereClause) {
+	protected static void sqlDelete(String table, String whereClause) {
 		
 		PreparedStatement ps;
 		try {			
-			ps = con.prepareStatement("DELETE FROM " + table + " WHERE "+ whereClause);
+			ps = con.prepareStatement("delete from " + table + " where "+ whereClause);
 			System.out.println("DELETE FROM " + table + " WHERE "+ whereClause + ";");
 			ps.executeUpdate();
 
@@ -91,7 +91,7 @@ public class QueryBase {
 	 * @param whereClause The SQL used in the where clause in the form of a string. Do not insert
 	 * WHERE or semicolons.
 	 */	
-	protected void sqlUpdate(String table, String setClause, String whereClause) {
+	protected static void sqlUpdate(String table, String setClause, String whereClause) {
 		
 		PreparedStatement ps;
 		try {			
@@ -132,7 +132,7 @@ public class QueryBase {
 	 * @return result The result of the Select query in the form of a ResultSet object. Check the Javadoc for
 	 * ResultSet for getter methods and other information.
 	 */	
-	protected ResultSet sqlSelect(String selectClause, String table, String clause) {
+	protected static ResultSet sqlSelect(String selectClause, String table, String clause) {
 ;
 		ResultSet result = null;
 		try {			
@@ -158,7 +158,7 @@ public class QueryBase {
 	 * 
 	 * @param rs The ResultSet to be printed out.
 	 */
-	protected void printResultSet(ResultSet rs) {
+	protected static void printResultSet(ResultSet rs) {
 		try {
 			System.out.println("Fetching ResultSet metadata...");
 		    ResultSetMetaData rsmd = rs.getMetaData();

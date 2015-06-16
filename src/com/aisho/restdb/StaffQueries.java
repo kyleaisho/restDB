@@ -8,8 +8,8 @@ public class StaffQueries extends QueryBase {
 	 * @param sin The sin of the new staff member
 	 * @param name The name of the new staff member
 	 */
-	private void enterStaff(int sin, String name) {
-		
+	protected static void enterStaff(int sin, String name) {
+		sqlInsert("Staff",sin + "," + name);
 	}
 	
 	/**OPTIONAL QUERY
@@ -24,8 +24,9 @@ public class StaffQueries extends QueryBase {
 	 * @param sin The sin of the new staff member
 	 * @param name The name of the new staff member
 	 */
-	private void deleteStaff(int sin) {
+	protected static void deleteStaff(int sin) {
 		//Should kick off the cascade effect with associated recipes
+		sqlDelete("Staff","SIN = " + sin);
 	}
 	
 	//To be run from the main class. Insert anything you want to test here
