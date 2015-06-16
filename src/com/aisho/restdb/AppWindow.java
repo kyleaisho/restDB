@@ -323,6 +323,10 @@ public class AppWindow extends JFrame {
 		scrollPane.setBounds(0, 37, 764, 215);
 		staffCard.add(scrollPane);
 		
+		JButton btnAddStaff = new JButton("Add Staff");
+		btnAddStaff.setBounds(647, 6, 117, 29);
+		staffCard.add(btnAddStaff);
+		
 		mainPanel.add(stockCard, STOCK);
 		stockCard.setLayout(null);
 		
