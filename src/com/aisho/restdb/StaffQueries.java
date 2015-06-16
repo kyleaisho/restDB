@@ -30,9 +30,8 @@ public class StaffQueries extends QueryBase {
 	}
 	
 	//To be run from the main class. Insert anything you want to test here
-	protected void testStaffQueries() {
-		Connection con = TestHelper.connect();
-		ResultSet rs = sqlSelect( "*", "Recipe", "");
-		printResultSet(rs);
+	protected ResultSet selectStaff() {
+		ResultSet rs = sqlSelect( "*", "Staff", "");
+		return rs;
 	}
 }

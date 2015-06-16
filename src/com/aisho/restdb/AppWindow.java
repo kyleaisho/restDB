@@ -7,6 +7,9 @@ import java.awt.Panel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.JRadioButton;
@@ -15,6 +18,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -28,11 +32,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
 import javax.swing.JList;
 import javax.swing.JFormattedTextField;
+import javax.swing.JTable;
 
 public class AppWindow extends JFrame {
 	
@@ -69,6 +75,8 @@ public class AppWindow extends JFrame {
 	
 	// Query objects
 	private static QueryBase qb = null;
+	private DefaultListModel dlm;
+	private JTable staffTable;
 	
 
 	/**
@@ -156,6 +164,7 @@ public class AppWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				layout.show(mainPanel, STAFF);
+				populateStaffCard();
 			}
 			
 		});
@@ -307,14 +316,16 @@ public class AppWindow extends JFrame {
 		mainPanel.add(staffCard, STAFF);
 		staffCard.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(6, 35, 752, 211);
-		staffCard.add(panel);
+		staffTable = new JTable();
+		staffTable.setBounds(0, 37, 764, 215);
 		
-		JList list = new JList();
-		panel.add(list);
+		JScrollPane scrollPane = new JScrollPane(staffTable);
+		scrollPane.setBounds(0, 37, 764, 215);
+		staffCard.add(scrollPane);
+		
 		mainPanel.add(stockCard, STOCK);
 		stockCard.setLayout(null);
+		
 			
 		
 	}
@@ -336,7 +347,7 @@ public class AppWindow extends JFrame {
 		textPane = new JTextPane();
 		textPane.setBounds(10, 380, 764, 169);
 		jsp = new JScrollPane(textPane);
-		jsp.setBounds(6, 5, 720, 158);
+		jsp.setBounds(0, 0, 764, 169);
 		showConsoleCard.add(jsp);
 		
 	}
@@ -422,5 +433,25 @@ public class AppWindow extends JFrame {
 		
 		System.setOut(new PrintStream(os, true));
 		System.setErr(new PrintStream(os, true));
+	}
+	
+	/**
+	 * Adds all the staff to the staff card
+	 */
+	public void populateStaffCard() {
+		Staff s = new Staff();
+		ArrayList<Staff> staff = s.getStaffFromDB();
+		int len = staff.size();
+		DefaultTableModel model = new DefaultTableModel();
+		staffTable.setModel(model);
+		model.addColumn(new String [] {"SIN"});
+		model.addColumn(new String [] {"Name"});
+		String [] header = new String [] {"SIN" , "Name"};
+		model.setColumnIdentifiers(header);
+		for (int i = 0; i < staff.size(); i++) {
+			Staff st = staff.get(i);
+			model.addRow(new String [] {st.getSin(), st.getName()});
+		}
+		
 	}
 }
