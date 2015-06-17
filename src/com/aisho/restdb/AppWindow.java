@@ -57,7 +57,6 @@ public class AppWindow extends JFrame {
 	private JTextField txtCustomerId;
 	private JTextField txtMenuItem;
 	
-	private static int numOfCards = 0;
 	private JPanel recipeCard;
 	private JPanel customerCard;
 	private JPanel staffCard;
@@ -74,8 +73,6 @@ public class AppWindow extends JFrame {
 	private JTextField txtStudentid;
 	
 	// Query objects
-	private static QueryBase qb = null;
-	private DefaultListModel dlm;
 	private JTable staffTable;
 	
 
@@ -282,19 +279,10 @@ public class AppWindow extends JFrame {
 	private void setUpCards(JPanel mainPanel) {
 		
 		blankCard = new JPanel();
-		numOfCards++;
-		
 		recipeCard = new JPanel();
-		numOfCards++;
-		
 		customerCard = new JPanel();
-		numOfCards++;
-		
 		staffCard = new JPanel();
-		numOfCards++;
-		
 		stockCard = new JPanel();
-		numOfCards++;
 		
 		layout = (CardLayout) mainPanel.getLayout();
 		layout.show(mainPanel, HOME);

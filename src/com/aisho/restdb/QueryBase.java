@@ -196,4 +196,13 @@ public class QueryBase {
 	protected static String sqlStringify(String s) {
 		return "'".concat(s).concat("'");
 	}
+	
+	/**
+	 * Prints out the relevant info form an SQL exception 
+	 * @param e The exception to be checked
+	 */
+	protected static void printSQLException(SQLException e) {
+		System.out.println("SQL State is " + e.getSQLState() + "\n" + "SQL Error Code is " 
+							+ e.getErrorCode() + "\n" + "SQLException message is " + e.getMessage());
+	}
 }
