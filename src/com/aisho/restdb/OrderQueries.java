@@ -17,6 +17,7 @@ public class OrderQueries extends QueryBase {
 	 * @param order The order of the given cid
 	 */
 	protected static void enterOrder(int cid, String order) {
+		order = sqlStringify(order);
 		if(checkOrderAvailable(order)){
 			sqlInsert("Order_Placed_Ordered","countID.nextval"+","+ cid + "," + "'"+currentTimestamp+"'"+ "," + order );
 		}
