@@ -18,7 +18,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -27,23 +26,19 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
-import java.awt.Font;
 import java.awt.CardLayout;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTextPane;
-import javax.swing.JScrollBar;
-import javax.swing.JList;
-import javax.swing.JFormattedTextField;
 import javax.swing.JTable;
 
+@SuppressWarnings("serial")
 public class AppWindow extends JFrame {
 	
 	private static final int HEIGHT = 600;

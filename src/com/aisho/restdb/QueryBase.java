@@ -6,7 +6,7 @@ import java.io.*;
 
 public class QueryBase {
 	
-	static java.sql.Connection con = Connect.getInstance().getConnection();
+	static java.sql.Connection con = Connect.getConnection();
 	
 	/**
 	 * A basic insert query.
