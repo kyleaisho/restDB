@@ -86,7 +86,6 @@ public class AppWindow extends JFrame {
 	private JPanel mainPanel;
 	private JTable recipesTable;
 	private JButton btnAddToMenu;
-	private JButton btnDelRecipe;
 	private JButton btnNewRecipe;
 	private JButton btnGross;
 	private JButton btnMostPop;
@@ -207,7 +206,7 @@ public class AppWindow extends JFrame {
 				orderQuery.enterOrder(cust, sin, order);
 			}
 			
-		});;
+		});
 		
 		
 		// Set all buttons to inactive until DB connect happens
@@ -646,11 +645,6 @@ public class AppWindow extends JFrame {
 		btnAddToMenu = new JButton("Add To Menu");
 		btnAddToMenu.setBounds(586, 6, 117, 29);
 		recipeCard.add(btnAddToMenu);
-		
-
-		btnDelRecipe = new JButton("Del Recipe");
-		btnDelRecipe.setBounds(586, 32, 117, 29);
-		recipeCard.add(btnDelRecipe);
 		
 	}
 	
