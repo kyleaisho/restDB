@@ -99,19 +99,85 @@ INSERT INTO Staff
 VALUES(485034617, 'Clint Barton');
 
 INSERT INTO Stock
+VALUES('Tomatoes', 47, 0.34);
+
+INSERT INTO Stock
+VALUES('Clams', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Oysters', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Shrimp', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Olive Oil', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Saffron', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Cottage Cheese', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Black Truffle', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Sticky Rice', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Cinnamon', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Sweet Cream', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Water', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Coffee Beans', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Garlic', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Thyme', 50, 0.51);
+
+INSERT INTO Stock
 VALUES('Duck Breast', 16, 3.05);
+
+INSERT INTO Stock
+VALUES('Duck Bones', 50, 0.51);
 
 INSERT INTO Stock
 VALUES('Maple Sugar', 1000, 2.85);
 
 INSERT INTO Stock
-VALUES('Shrimp', 72, 2.62);
-
-INSERT INTO Stock
 VALUES('Onions', 33, 0.28);
 
 INSERT INTO Stock
-VALUES('Tomatoes', 47, 0.34);
+VALUES('Cake Mix', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Pecan Frosting', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Vegetable Oil', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Butter', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Sugar', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Flour', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Rhubarb', 50, 0.51);
+
+INSERT INTO Stock
+VALUES('Licorice', 50, 0.51);
 
 INSERT INTO Customer
 VALUES(1, 'Oliver Queen');
@@ -135,13 +201,13 @@ INSERT INTO Recipes
 VALUES('Black Truffle Risotto', 'Cottage Cheese, Onions, Black Truffle, Sticky Rice');
 
 INSERT INTO Recipes
-VALUES('Coffee', 'Cinnamon, Maple Sugar, Sweet Cream, Water, Roasted Coffee Beans');
+VALUES('Coffee', 'Cinnamon, Maple Sugar, Sweet Cream, Water, Coffee Beans');
 
 INSERT INTO Recipes
 VALUES('Duck Broth', 'Onions, Garlic, Thyme, Duck Breast, Duck Bones');
 
 INSERT INTO Recipes
-VALUES('Chocolate Cake', 'Chocolate Cake Mix, Coconut Pecan Frosting, Vegetable Oil, Butter, Sugar, Flour, Rhubarb, Licorice');
+VALUES('Chocolate Cake', 'Cake Mix, Coconut Frosting, Vegetable Oil, Butter, Sugar, Flour, Rhubarb, Licorice');
 
 INSERT INTO Recipes_Created
 VALUES('Bouillabaisse', 550841266);
@@ -231,15 +297,84 @@ VALUES(8, 2, '2015-05-29 15:31:45.028', 'Black Truffle Risotto');
 
 INSERT INTO Requires
 VALUES('Shrimp','Riviera Bouillabaisse');
-
+ 
 INSERT INTO Requires
 VALUES('Tomatoes','Riviera Bouillabaisse');
+
+INSERT INTO Requires
+VALUES('Clams','Riviera Bouillabaisse');
+
+INSERT INTO Requires
+VALUES('Oysters','Riviera Bouillabaisse');
+
+INSERT INTO Requires
+VALUES('Olive Oil','Riviera Bouillabaisse');
+ 
+INSERT INTO Requires
+VALUES('Saffron','Riviera Bouillabaisse');
+
+INSERT INTO Requires
+VALUES('Cottage Cheese', 'Black Truffle Risotto');
+
+INSERT INTO Requires
+VALUES('Onions', 'Black Truffle Risotto');
+
+INSERT INTO Requires
+VALUES('Black Truffle', 'Black Truffle Risotto');
+
+INSERT INTO Requires
+VALUES('Sticky Rice', 'Black Truffle Risotto');
 
 INSERT INTO Requires
 VALUES('Maple Sugar', 'Cream Coffee');
 
 INSERT INTO Requires
+VALUES('Cinnamon', 'Cream Coffee');
+
+INSERT INTO Requires
+VALUES('Sweet Cream', 'Cream Coffee');
+
+INSERT INTO Requires
+VALUES('Water', 'Cream Coffee');
+
+INSERT INTO Requires
+VALUES('Coffee Beans', 'Cream Coffee');
+
+INSERT INTO Requires
 VALUES('Duck Breast','Traditional Duck Broth' );
 
 INSERT INTO Requires
-VALUES('Onions', 'Black Truffle Risotto');
+VALUES('Onions','Traditional Duck Broth' );
+
+INSERT INTO Requires
+VALUES('Garlic','Traditional Duck Broth' );
+
+INSERT INTO Requires
+VALUES('Thyme','Traditional Duck Broth' );
+
+INSERT INTO Requires
+VALUES('Duck Bones','Traditional Duck Broth' );
+
+INSERT INTO Requires
+VALUES('Cake Mix','Chocolate Mousse Cake' );
+
+INSERT INTO Requires
+VALUES('Pecan Frosting','Chocolate Mousse Cake' );
+
+INSERT INTO Requires
+VALUES('Vegetable Oil','Chocolate Mousse Cake' );
+
+INSERT INTO Requires
+VALUES('Butter','Chocolate Mousse Cake' );
+
+INSERT INTO Requires
+VALUES('Sugar','Chocolate Mousse Cake' );
+
+INSERT INTO Requires
+VALUES('Flour','Chocolate Mousse Cake' );
+
+INSERT INTO Requires
+VALUES('Rhubarb','Chocolate Mousse Cake' );
+
+INSERT INTO Requires
+VALUES('Licorice','Chocolate Mousse Cake' );
