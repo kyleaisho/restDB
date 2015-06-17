@@ -204,8 +204,7 @@ public class AppWindow extends JFrame {
 				int sin = Integer.parseInt(ssin);
 				int cust = Integer.parseInt(cid);
 				orderQuery = new OrderQueries();
-				orderQuery.enterService(cust, sin);
-				orderQuery.enterOrder(cust, order);
+				orderQuery.enterOrder(cust, sin, order);
 			}
 			
 		});;
