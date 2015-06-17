@@ -93,6 +93,7 @@ public class AppWindow extends JFrame {
 	private JButton btnCheckOrder;
 	private JButton btnLeastPopular;
 	private JButton btnDelMenuItem;
+	private JButton btnAteEverything;
 	
 	
 
@@ -237,6 +238,19 @@ public class AppWindow extends JFrame {
 		final JButton btnLogin = new JButton("Login");
 		btnLogin.setBounds(536, 2, 117, 29);
 		getContentPane().add(btnLogin);
+		
+		JButton btnStats = new JButton("Stats");
+		btnStats.setBounds(138, 76, 247, 29);
+		getContentPane().add(btnStats);
+		btnStats.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				layout.show(mainPanel, HOME);
+			}
+			
+		});
+		
 		btnLogin.addActionListener(new ActionListener() {
 
 			@Override
@@ -252,7 +266,7 @@ public class AppWindow extends JFrame {
 				btnLeastPopular.setEnabled(true);
 				btnCheckOrder.setEnabled(true);
 				btnOrder.setEnabled(true);
-				
+				btnAteEverything.setEnabled(true);
 				if (rdbtnAdministrator.isSelected())
 					btnStaff.setEnabled(true);
 			}
@@ -373,6 +387,11 @@ public class AppWindow extends JFrame {
 		btnLeastPopular.setBounds(230, 86, 314, 25);
 		btnLeastPopular.setEnabled(false);
 		baseCard.add(btnLeastPopular);
+		
+		btnAteEverything = new JButton("The Customer Who Ate Everything");
+		btnAteEverything.setBounds(230, 160, 314, 29);
+		baseCard.add(btnAteEverything);
+		btnAteEverything.setEnabled(false);
 		btnLeastPopular.addActionListener(new ActionListener() {
 
 			@Override
@@ -777,7 +796,7 @@ public class AppWindow extends JFrame {
 	private void checkItemPopularity(String s) {
 		complexQ = new ComplexQueries();
 		List<String> items = complexQ.checkPopularItem(s);
-		Object [] display = new Object[items.size() - 1];
+		Object [] display = new Object[items.size()];
 		for (int i = 0; i < items.size(); i++) {
 			display[i] = items.get(i);
 		}
