@@ -85,6 +85,7 @@ public class AppWindow extends JFrame {
 	private JTextField txtPrice;
 	private JTextField txtPrice1;
 	private JTextField txtPrice2;
+	private JPanel mainPanel;
 	
 
 	/**
@@ -113,7 +114,7 @@ public class AppWindow extends JFrame {
 		getContentPane().setLayout(null);
 		
 
-		final JPanel mainPanel = new JPanel();
+		mainPanel = new JPanel();
 		mainPanel.setBounds(10, 116, 764, 252);
 		getContentPane().add(mainPanel);
 		mainPanel.setLayout(new CardLayout(0, 0));
@@ -350,6 +351,10 @@ public class AppWindow extends JFrame {
 			}
 		});
 		
+		populateStockCard();
+	}
+	
+	private void populateStockCard() {
 		// Create an arraylist to hold similar values for txt fields
 		final ArrayList<JTextField> items = new ArrayList<JTextField>();
 		final ArrayList<JTextField> qties = new ArrayList<JTextField>();
@@ -443,10 +448,8 @@ public class AppWindow extends JFrame {
 		txtPrice2.setColumns(10);
 		prices.add(txtPrice2);
 		
-		
-		
 	}
-	
+
 	/**
 	 * Console panel with a card layout so we can toggle between visible or not visible 
 	 * when toggled as the administrator
