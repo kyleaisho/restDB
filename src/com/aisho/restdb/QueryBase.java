@@ -37,9 +37,8 @@ public class QueryBase {
 		    	con.rollback();	
 		    }
 		    
-		    catch (SQLException e2) {		    
-		    	System.out.println("Message: " + e2.getMessage());
-		    	System.exit(-1);
+		    catch (SQLException e2) {
+		    	printSQLException(e);
 		    }
 		}
 	}
@@ -65,8 +64,7 @@ public class QueryBase {
 			ps.close();
 			  
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			printSQLException(e);
 		    try {
 		
 		    	// undo the delete
@@ -75,8 +73,7 @@ public class QueryBase {
 		    }
 		    
 		    catch (SQLException e2) {		    
-		    	System.out.println("Message: " + e2.getMessage());
-		    	System.exit(-1);
+		    	printSQLException(e);
 		    }
 		}
 	}
@@ -104,8 +101,7 @@ public class QueryBase {
 			ps.close();
 			  
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			printSQLException(e);
 		    try {
 		
 		    	// undo the update
@@ -114,8 +110,7 @@ public class QueryBase {
 		    }
 		    
 		    catch (SQLException e2) {		    
-		    	System.out.println("Message: " + e2.getMessage());
-		    	System.exit(-1);
+		    	printSQLException(e);
 		    }
 		}
 	}
@@ -145,8 +140,7 @@ public class QueryBase {
 			//stmt.close();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			printSQLException(e);
 		}
 		
 		return result;
@@ -182,8 +176,7 @@ public class QueryBase {
 		        System.out.println("");
 		    }
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			printSQLException(e);
 		}
 	}
 	

@@ -457,7 +457,6 @@ public class AppWindow extends JFrame {
 	public void populateStaffCard() {
 		Staff s = new Staff();
 		ArrayList<Staff> staff = s.getStaffFromDB();
-		int len = staff.size();
 		DefaultTableModel model = new DefaultTableModel();
 		staffTable.setModel(model);
 		model.addColumn(new String [] {"SIN"});
