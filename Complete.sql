@@ -11,7 +11,7 @@ drop table Staff;
 drop sequence countID;
 drop sequence countCID;
 
-create sequence countID  start with 6 increment by 1;
+create sequence countID  start with 9 increment by 1;
 create sequence countCID  start with 6 increment by 1;
 
 CREATE TABLE Staff(
@@ -219,6 +219,15 @@ VALUES(4, 5, '2015-05-29 15:31:45.028', 'Cream Coffee');
 
 INSERT INTO Order_Placed_Ordered
 VALUES(5, 2, '2015-05-29 15:31:45.028', 'Cream Coffee');
+
+INSERT INTO Order_Placed_Ordered
+VALUES(6, 2, '2015-05-29 15:31:45.028', 'Chocolate Mousse Cake');
+
+INSERT INTO Order_Placed_Ordered
+VALUES(7, 2, '2015-05-29 15:31:45.028', 'Riviera Bouillabaisse');
+
+INSERT INTO Order_Placed_Ordered
+VALUES(8, 2, '2015-05-29 15:31:45.028', 'Black Truffle Risotto');
 
 INSERT INTO Requires
 VALUES('Shrimp','Riviera Bouillabaisse');

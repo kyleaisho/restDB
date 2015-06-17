@@ -32,8 +32,8 @@ public class Connect {
 
 		try 
 		{
-			String login = "ora_".concat("x1i8");
-			String pass = "a".concat("55386114");
+			String login = "ora_".concat(uname);
+			String pass = "a".concat(pword);
 			con = DriverManager.getConnection(connectURL,login,pass);
 		
 		}
@@ -66,11 +66,9 @@ public class Connect {
 		public static java.sql.Connection getConnection() {
 			return con;
 		}
-		/**
-		 * Sets the username and password for the db
-		 * @return 
-		 */
-		 static void loginToDB(String u, String p) {
+		
+		
+		public static void loginToDB(String u, String p) {
 			uname = u;
 			pword = p;
 		}

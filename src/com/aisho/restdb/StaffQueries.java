@@ -42,4 +42,9 @@ public class StaffQueries extends QueryBase {
 		ResultSet rs = sqlSelect( "*", "Staff", "");
 		return rs;
 	}
+	
+	protected static void whoHasOrderedEverything(){
+		ResultSet rs = sqlSelect("C.Name","Customer C", "Where NOT EXISTS((Select RM.mName From Recipe_To_Menu RM) Minus( Select OP.mName From Order_Placed_Ordered OP Where OP.CID = C.CID))");
+		printResultSet(rs);
+	}
 }
