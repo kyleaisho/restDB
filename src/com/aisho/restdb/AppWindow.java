@@ -32,6 +32,7 @@ import java.awt.CardLayout;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -86,6 +87,10 @@ public class AppWindow extends JFrame {
 	private JTextField txtPrice1;
 	private JTextField txtPrice2;
 	private JPanel mainPanel;
+	private JTable recipesTable;
+	private JButton btnAddToMenu;
+	private JButton btnDelRecipe;
+	private JButton btnNewRecipe;
 	
 
 	/**
@@ -160,7 +165,7 @@ public class AppWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				layout.show(mainPanel, RECIPE);
-				
+				populateRecipeCard();
 			}
 			
 		});
@@ -310,6 +315,13 @@ public class AppWindow extends JFrame {
 		mainPanel.add(blankCard, HOME);
 		mainPanel.add(recipeCard, RECIPE);
 		recipeCard.setLayout(null);
+		
+		recipesTable = new JTable();
+		recipesTable.setBounds(6, 62, 752, 184);
+		
+		JScrollPane recipeScroll = new JScrollPane(recipesTable);
+		recipeScroll.setBounds(6, 62, 752, 184);
+		recipeCard.add(recipeScroll);
 		
 		mainPanel.add(customerCard, CUSTOMER);
 		customerCard.setLayout(null);
@@ -496,10 +508,25 @@ public class AppWindow extends JFrame {
 	}
 
 	private void setupRecipeCard() {
+		
+		btnNewRecipe = new JButton("New Recipe");
+		btnNewRecipe.setBounds(467, 6, 117, 29);
+		recipeCard.add(btnNewRecipe);
+		
 		JLabel lblRecipes = new JLabel(RECIPE);
 		lblRecipes.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRecipes.setBounds(206, 16, 328, 16);
 		recipeCard.add(lblRecipes);	
+		
+		btnAddToMenu = new JButton("Add To Menu");
+		btnAddToMenu.setBounds(586, 6, 117, 29);
+		recipeCard.add(btnAddToMenu);
+		
+
+		btnDelRecipe = new JButton("Del Recipe");
+		btnDelRecipe.setBounds(586, 32, 117, 29);
+		recipeCard.add(btnDelRecipe);
+		
 	}
 	
 	/**
@@ -556,9 +583,60 @@ public class AppWindow extends JFrame {
 	}
 	
 	/**
+	 * Sets up the table for the recipes to be shown
+	 */
+	public void populateRecipeCard() {
+		
+		btnAddToMenu.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int row = recipesTable.getSelectedRow();
+				String rname = (String) recipesTable.getValueAt(row, 0);
+				String mname = getDataDialog("Enter the menu name");
+				Double price = Double.parseDouble(getDataDialog("What should the price be?").trim());
+				MenuQueries mq = new MenuQueries();
+				mq.enterMenuItem(rname.trim(), mname.trim(), price);
+				
+			}
+			
+		});
+		
+		btnNewRecipe.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String rName = getDataDialog("Whats the Recipe Name");
+				String sin = getDataDialog("Whats the SIN of the Chef?");
+				String ing = getDataDialog("Enter the ingredients separated by a comma");
+				
+				RecipeQueries rq = new RecipeQueries();
+				rq.enterRecipe(rName, Integer.parseInt(sin), ing);
+				
+			}
+			
+		});
+		
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn(new String [] {"Name"});
+		model.addColumn(new String [] {"Ingredients"});
+		String [] headers = new String [] { "Name", "Ingredients"};
+		model.setColumnIdentifiers(headers);
+		recipesTable.setModel(model);
+		ResultSet rs = QueryBase.sqlSelect("*", "Recipes", "");
+		try {
+			while (rs.next()) {
+				model.addRow(new Object [] { rs.getString(1), rs.getString(2)});
+			}
+		} catch (SQLException e) {
+			QueryBase.printSQLException(e);
+		}
+	}
+	
+	/**
 	 * Adds all the staff to the staff card
 	 */
-	public void populateStaffCard() {
+	public void populateStaffCard() {	
 		Staff s = new Staff();
 		ArrayList<Staff> staff = s.getStaffFromDB();
 		DefaultTableModel model = new DefaultTableModel();

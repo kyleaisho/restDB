@@ -10,7 +10,7 @@ public class RecipeQueries extends QueryBase {
 	 * @param sin The sin of the staff member who added the recipe
 	 * @param ingredients A list of ingredients needed to make the recipe
 	 */
-	private void enterRecipe(String rName, int sin, String ingredients) {
+	protected void enterRecipe(String rName, int sin, String ingredients) {
 		// Will need to enter the ingredients:
 		//- as a list in the Recipes table
 		

@@ -5,8 +5,8 @@ public class Connect {
 	
 	private static java.sql.Connection con;
 	private static Connect connectionClass;
-	//private static String uname = "";
-	//private static String pword = "";
+	private static String uname = "";
+	private static String pword = "";
 	
 	/**
 	  * Constructor.
@@ -66,16 +66,14 @@ public class Connect {
 		public static java.sql.Connection getConnection() {
 			return con;
 		}
-		/*
 		/**
 		 * Sets the username and password for the db
 		 * @return 
+		 */
 		 static void loginToDB(String u, String p) {
 			uname = u;
 			pword = p;
 		}
-		
-		*/
 		
 	}
 	
