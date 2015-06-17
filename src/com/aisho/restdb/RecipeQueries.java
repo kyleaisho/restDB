@@ -20,6 +20,7 @@ public class RecipeQueries extends QueryBase {
 		
 	}
 	
+	
 	/**
 	 * OPTIONAL QUERY
 	 * @param con The connection object created to access the Oracle DB.

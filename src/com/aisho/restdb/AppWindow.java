@@ -67,9 +67,10 @@ public class AppWindow extends JFrame {
 	private JTextField txtCsid;
 	private JTextField txtStudentid;
 	
-	// Query objects
-	private ComplexQueries complexQ = new ComplexQueries();
-	private OrderQueries orderQuery = new OrderQueries();
+	// Query Fields
+	OrderQueries orderQuery;
+	ComplexQueries complexQ;
+	private MenuQueries menuQ;
 	
 	private JTable staffTable;
 	private JTextField txtItem;
@@ -92,7 +93,7 @@ public class AppWindow extends JFrame {
 	private JButton btnCheckOrder;
 	private JButton btnLeastPopular;
 	private JButton btnDelMenuItem;
-	private MenuQueries menuQ = new MenuQueries();
+	
 	
 
 	/**
@@ -201,6 +202,7 @@ public class AppWindow extends JFrame {
 				}
 				int sin = Integer.parseInt(ssin);
 				int cust = Integer.parseInt(cid);
+				orderQuery = new OrderQueries();
 				orderQuery.enterService(cust, sin);
 				orderQuery.enterOrder(cust, order);
 			}
@@ -250,6 +252,7 @@ public class AppWindow extends JFrame {
 				btnLeastPopular.setEnabled(true);
 				btnCheckOrder.setEnabled(true);
 				btnOrder.setEnabled(true);
+				
 				if (rdbtnAdministrator.isSelected())
 					btnStaff.setEnabled(true);
 			}
@@ -325,6 +328,7 @@ public class AppWindow extends JFrame {
 						+ "Enter it exactly like this: \"2013-11-02 12:07:11.927\"");
 				if (start.isEmpty() || end.isEmpty())
 					return;
+				complexQ = new ComplexQueries();
 				Double gross = complexQ.checkGrossSales(start, end);
 				showInfoDialog(gross.toString());
 			}
@@ -358,6 +362,7 @@ public class AppWindow extends JFrame {
 						+ "Enter it exactly like this: \"2013-11-02 12:07:11.927\"");
 				if (start.isEmpty() || end.isEmpty())
 					return;
+				complexQ = new ComplexQueries();
 				int gross = complexQ.checkTotalOrders(start, end);
 				showInfoDialog(String.valueOf(gross));
 			}
@@ -703,7 +708,7 @@ public class AppWindow extends JFrame {
 		String [] headers = new String [] { "Name", "Ingredients"};
 		model.setColumnIdentifiers(headers);
 		recipesTable.setModel(model);
-		ResultSet rs = QueryBase.sqlSelect("*", "Recipes", "");
+		ResultSet rs = RecipeQueries.sqlSelect("*", "Recipes", "");
 		try {
 			while (rs.next()) {
 				model.addRow(new Object [] { rs.getString(1), rs.getString(2)});
@@ -770,6 +775,7 @@ public class AppWindow extends JFrame {
 	 * @param s "max" or "min"
 	 */
 	private void checkItemPopularity(String s) {
+		complexQ = new ComplexQueries();
 		List<String> items = complexQ.checkPopularItem(s);
 		Object [] display = new Object[items.size() - 1];
 		for (int i = 0; i < items.size(); i++) {

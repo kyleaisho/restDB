@@ -6,7 +6,8 @@ import java.io.*;
 
 public class QueryBase {
 	
-	static java.sql.Connection con = Connect.getConnection();
+	@SuppressWarnings("static-access")
+	static java.sql.Connection con = Connect.getInstance().getConnection();
 	
 	/**
 	 * A basic insert query.
@@ -28,8 +29,7 @@ public class QueryBase {
 			ps.close();
 			  
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			printSQLException(e);
 		    try {
 		
 		    	// undo the insert
