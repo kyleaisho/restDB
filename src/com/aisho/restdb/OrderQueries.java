@@ -17,8 +17,8 @@ public class OrderQueries extends QueryBase {
 	 * @param order The order of the given cid
 	 */
 	protected static void enterOrder(int cid, String order) {
-		if(checkOrderAvailable(cid,order)==true){
-		sqlInsert("Order_Placed_Ordered","seq_no.nextval"+","+ cid + "," + "'"+currentTimestamp+"'"+ "," + order );
+		if(checkOrderAvailable(order)==true){
+		sqlInsert("Order_Placed_Ordered","countID.nextval"+","+ cid + "," + "'"+currentTimestamp+"'"+ "," + order );
 		}
 		else{
 			System.out.println("Can't make order");
@@ -39,20 +39,13 @@ public class OrderQueries extends QueryBase {
 	 */
 	
 	
-	protected static boolean checkOrderAvailable(int cid, String order) {
+	protected static boolean checkOrderAvailable(String order) {
 		boolean doneSomething = false;
-		String check = "Order_Placed_Ordered.mName = Recipe_To_Menu.mName AND Recipe_To_Menu.mName = Requires.mName AND mName = " + order;
-		ResultSet rs = sqlSelect("DISTINCT Requires.sName","Recipe_To_Menu,Order_Placed_Ordered,Requires", "where Recipe_To_Menu.mName = Order_Placed_Ordered.mName AND Requires.mName = Recipe_To_Menu.mName AND Order_Placed_Ordered.mName = " + order);
-		try {
-				while(rs.next()){
-					System.out.println("We here");
-					StockQueries.modifyStock("'"+rs.getString(1)+"'");
-					doneSomething = true;
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		ResultSet rs = sqlSelect("DISTINCT Requires.sName","Recipe_To_Menu,Order_Placed_Ordered,Requires,Stock", "where Recipe_To_Menu.mName = Order_Placed_Ordered.mName AND Requires.mName = Recipe_To_Menu.mName AND Order_Placed_Ordered.mName = " + order);
+			if(StockQueries.modifyStock(rs)== true){
+				doneSomething = true;
 			}
+				
 		if(doneSomething == true){
 			return true;
 		}

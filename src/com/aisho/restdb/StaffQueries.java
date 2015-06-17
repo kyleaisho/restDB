@@ -29,6 +29,14 @@ public class StaffQueries extends QueryBase {
 		sqlDelete("Staff","SIN = " + sin);
 	}
 	
+	/**
+	 * @param sin The sin of the new staff member
+	 * @param name The name of the new staff member
+	 */
+	protected static void enterCustomer(String name) {
+		sqlInsert("Customer", "countCID.nextval," + name);
+	}
+	
 	//To be run from the main class. Insert anything you want to test here
 	protected ResultSet selectStaff() {
 		ResultSet rs = sqlSelect( "*", "Staff", "");
