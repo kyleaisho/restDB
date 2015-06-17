@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -74,6 +75,16 @@ public class AppWindow extends JFrame {
 	
 	// Query objects
 	private JTable staffTable;
+	private JTextField txtItem;
+	private JTextField txtItem_1;
+	private JTextField txtItem_2;
+	private JTextField txtQty;
+	private JTextField txtQty_1;
+	private JTextField txtQty_2;
+	private JLabel lblUnitPrice;
+	private JTextField txtPrice;
+	private JTextField txtPrice1;
+	private JTextField txtPrice2;
 	
 
 	/**
@@ -339,10 +350,100 @@ public class AppWindow extends JFrame {
 			}
 		});
 		
+		// Create an arraylist to hold similar values for txt fields
+		final ArrayList<JTextField> items = new ArrayList<JTextField>();
+		final ArrayList<JTextField> qties = new ArrayList<JTextField>();
+		final ArrayList<JTextField> prices = new ArrayList<JTextField>();
+
+		
 		mainPanel.add(stockCard, STOCK);
 		stockCard.setLayout(null);
+		JButton btnAddStock = new JButton("Add Stock");
+		btnAddStock.setBounds(537, 200, 117, 29);
+		stockCard.add(btnAddStock);
+		btnAddStock.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < items.size(); i++) {
+					// Insert into the tables
+					addStock(items.get(i).getText(), qties.get(i).getText(), prices.get(i).getText());
+					// Remove the values from the text fields
+					items.get(i).setText(null);
+					qties.get(i).setText(null);
+					prices.get(i).setText(null);
+				}
+			}});
 		
-			
+		JLabel lblStockName = new JLabel("Stock Name");
+		lblStockName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblStockName.setBounds(48, 52, 117, 16);
+		stockCard.add(lblStockName);
+		
+		txtItem = new JTextField();
+		txtItem.setToolTipText("item1");
+		txtItem.setBounds(58, 73, 134, 28);
+		stockCard.add(txtItem);
+		txtItem.setColumns(10);
+		items.add(txtItem);
+		
+		txtItem_1 = new JTextField();
+		txtItem_1.setBounds(58, 105, 134, 28);
+		stockCard.add(txtItem_1);
+		txtItem_1.setColumns(10);
+		items.add(txtItem_1);
+		
+		txtItem_2 = new JTextField();
+		txtItem_2.setBounds(58, 137, 134, 28);
+		stockCard.add(txtItem_2);
+		txtItem_2.setColumns(10);
+		items.add(txtItem_2);
+		
+		JLabel lblQuantity = new JLabel("Quantity");
+		lblQuantity.setBounds(236, 52, 94, 16);
+		stockCard.add(lblQuantity);
+		
+		txtQty = new JTextField();
+		txtQty.setBounds(206, 73, 134, 28);
+		stockCard.add(txtQty);
+		txtQty.setColumns(10);
+		qties.add(txtQty);
+		
+		txtQty_1 = new JTextField();
+		txtQty_1.setBounds(206, 105, 134, 28);
+		stockCard.add(txtQty_1);
+		txtQty_1.setColumns(10);
+		qties.add(txtQty_1);
+		
+		txtQty_2 = new JTextField();
+		txtQty_2.setBounds(206, 137, 134, 28);
+		stockCard.add(txtQty_2);
+		txtQty_2.setColumns(10);
+		qties.add(txtQty_2);
+		
+		lblUnitPrice = new JLabel("Unit Price");
+		lblUnitPrice.setBounds(391, 52, 87, 16);
+		stockCard.add(lblUnitPrice);
+		
+		txtPrice = new JTextField();
+		txtPrice.setBounds(363, 73, 134, 28);
+		stockCard.add(txtPrice);
+		txtPrice.setColumns(10);
+		prices.add(txtPrice);
+		
+		txtPrice1 = new JTextField();
+		txtPrice1.setBounds(363, 105, 134, 28);
+		stockCard.add(txtPrice1);
+		txtPrice1.setColumns(10);
+		prices.add(txtPrice1);
+		
+		txtPrice2 = new JTextField();
+		txtPrice2.setBounds(363, 137, 134, 28);
+		stockCard.add(txtPrice2);
+		txtPrice2.setColumns(10);
+		prices.add(txtPrice2);
+		
+		
 		
 	}
 	
@@ -468,5 +569,38 @@ public class AppWindow extends JFrame {
 			model.addRow(new Object [] {st.getSin(), st.getName()});
 		}
 		
+	}
+	
+	/**
+	 * Displays a dialog showing the user information
+	 * @param msg The message you want displayed
+	 */
+	public void showInfoDialog(String msg) {
+		JOptionPane.showMessageDialog(rootPane, msg);
+	}
+	
+	/**
+	 * Displays a dialog for user input. 
+	 * @param msg Message for the user, include any formatting details
+	 * @return a string exactly as the user entered it
+	 */
+	public String getDataDialog(String msg) {
+		return JOptionPane.showInputDialog(msg);
+	}
+	
+	/**
+	 * Creates stock entries in the DB
+	 * @param text
+	 */
+	private void addStock(String name, String qty, String price) {
+		if (!name.isEmpty() || !qty.isEmpty() || !price.isEmpty()) {
+			int q = Integer.parseInt(qty);
+			float p = Float.parseFloat(price);
+			if (q < 0 || p < 0) {
+				showInfoDialog("Enter positive values!");
+				return;
+			}
+			StockQueries.addStock(StockQueries.sqlStringify(name), q, p);
+		}
 	}
 }
