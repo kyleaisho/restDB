@@ -392,6 +392,28 @@ public class AppWindow extends JFrame {
 		btnAteEverything.setBounds(230, 160, 314, 29);
 		baseCard.add(btnAteEverything);
 		btnAteEverything.setEnabled(false);
+		btnAteEverything.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				ResultSet rs = StaffQueries.whoHasOrderedEverything();
+				ArrayList<String> result = new ArrayList<String>();
+				try {
+					while(rs.next()) {
+						result.add(rs.getString(1).trim());
+					}
+				} catch (SQLException e1) {
+					StaffQueries.printSQLException(e1);
+				}
+				if (result.isEmpty())
+					showInfoDialog("No one has eaten everything");
+				for (String s : result) {
+					showInfoDialog(s + " has eaten everything!");
+				}
+			}
+			
+		});
 		btnLeastPopular.addActionListener(new ActionListener() {
 
 			@Override
