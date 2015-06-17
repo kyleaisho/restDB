@@ -30,18 +30,19 @@ public class Connect {
 
 		String connectURL = "jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug"; 
 
-		try 
-		{
-			String login = "ora_".concat(uname);
-			String pass = "a".concat(pword);
-			con = DriverManager.getConnection(connectURL,login,pass);
+		if (!uname.isEmpty() && !pword.isEmpty())
+			try 
+			{
+				String login = "ora_".concat(uname);
+				String pass = "a".concat(pword);
+				con = DriverManager.getConnection(connectURL,login,pass);
 		
-		}
-		catch (SQLException ex)
-		{
-			System.out.println(ex.getMessage()+ "Could not connect");
+			}
+			catch (SQLException ex)
+			{
+				System.out.println(ex.getMessage()+ "Could not connect");
 
-		}
+			}
 	}
 		
 	/**

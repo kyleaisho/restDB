@@ -17,8 +17,8 @@ public class OrderQueries extends QueryBase {
 	 * @param order The order of the given cid
 	 */
 	protected static void enterOrder(int cid, String order) {
-		if(checkOrderAvailable(order)==true){
-		sqlInsert("Order_Placed_Ordered","countID.nextval"+","+ cid + "," + "'"+currentTimestamp+"'"+ "," + order );
+		if(checkOrderAvailable(order)){
+			sqlInsert("Order_Placed_Ordered","countID.nextval"+","+ cid + "," + "'"+currentTimestamp+"'"+ "," + order );
 		}
 		else{
 			System.out.println("Can't make order");

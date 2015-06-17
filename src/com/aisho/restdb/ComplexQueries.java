@@ -11,7 +11,7 @@ public class ComplexQueries extends QueryBase {
 	 * @param date1 The starting date to consider
 	 * @param date2 The ending date
 	 */
-	private double checkGrossSales(String date1, String date2) {
+	protected double checkGrossSales(String date1, String date2) {
 		ResultSet rs = sqlSelect("mName", "Order_Placed_Ordered", "WHERE order_date<='" + date2 + "' AND order_date>='" + date1 + "'");
 		List<String> nameList = new ArrayList<String>();
 		int i = 0;
@@ -27,8 +27,7 @@ public class ComplexQueries extends QueryBase {
 				i++;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			printSQLException(e);
 		}
 		
 		//Get the individual prices of each of the mNames
@@ -41,8 +40,7 @@ public class ComplexQueries extends QueryBase {
 				j++;
 			}
 			catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				printSQLException(e);
 			}
 		}
 		
@@ -79,7 +77,7 @@ public class ComplexQueries extends QueryBase {
 	 * 
 	 * @param maxOrMin One of "max" or "min". Will return either the most or least popular menu item, respectively.
 	 */
-	private List<String> checkPopularItem(String maxOrMin) {
+	protected List<String> checkPopularItem(String maxOrMin) {
 		List<String> nameList = new ArrayList<String>();
 		int i = 0;
 		
@@ -95,8 +93,7 @@ public class ComplexQueries extends QueryBase {
 							i++;
 						}
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						printSQLException(e);
 					} break;
 		
 		case "min": ResultSet rs2 = sqlSelect("mName, names", "(SELECT mName, COUNT(*) AS names FROM Order_Placed_Ordered GROUP BY mName)", 
@@ -111,7 +108,7 @@ public class ComplexQueries extends QueryBase {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				printSQLException(e);
 			} break;
 		
 		default: System.out.println(maxOrMin + " is not one of: 'max' or 'min'!");
@@ -130,7 +127,7 @@ public class ComplexQueries extends QueryBase {
 	 * @param date1 The starting date to consider
 	 * @param date2 The ending date
 	 */
-	private int checkTotalOrders(String date1, String date2) {
+	protected int checkTotalOrders(String date1, String date2) {
 		int totalOrders = 0;
 
 		
@@ -141,7 +138,7 @@ public class ComplexQueries extends QueryBase {
 			totalOrders = rs.getInt(1);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			printSQLException(e);
 		}
 		
 		return totalOrders;

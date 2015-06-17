@@ -32,9 +32,11 @@ import java.awt.CardLayout;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
@@ -55,15 +57,15 @@ public class AppWindow extends JFrame {
 	private static final String STOCK = "Stock";
 	private static final String HOME = "Home";
 	
-	private JTextField txtTableNumber;
+	private JTextField txtSSin;
 	private JTextField txtCustomerId;
 	private JTextField txtMenuItem;
 	
 	private JPanel recipeCard;
-	private JPanel customerCard;
+	private JPanel menuCard;
 	private JPanel staffCard;
 	private JPanel stockCard;
-	private JPanel blankCard;
+	private JPanel baseCard;
 	private CardLayout layout;
 	private JPanel consolePanel;
 	private JPanel blankConsoleCard;
@@ -75,6 +77,9 @@ public class AppWindow extends JFrame {
 	private JTextField txtStudentid;
 	
 	// Query objects
+	private ComplexQueries complexQ = new ComplexQueries();
+	private OrderQueries orderQuery = new OrderQueries();
+	
 	private JTable staffTable;
 	private JTextField txtItem;
 	private JTextField txtItem_1;
@@ -91,6 +96,12 @@ public class AppWindow extends JFrame {
 	private JButton btnAddToMenu;
 	private JButton btnDelRecipe;
 	private JButton btnNewRecipe;
+	private JButton btnGross;
+	private JButton btnMostPop;
+	private JButton btnCheckOrder;
+	private JButton btnLeastPopular;
+	private JButton btnDelMenuItem;
+	private MenuQueries menuQ = new MenuQueries();
 	
 
 	/**
@@ -137,11 +148,11 @@ public class AppWindow extends JFrame {
 		lblPlaceOrder.setBounds(17, 6, 85, 16);
 		getContentPane().add(lblPlaceOrder);
 		
-		txtTableNumber = new JTextField();
-		txtTableNumber.setText("Table Number");
-		txtTableNumber.setBounds(17, 34, 134, 28);
-		getContentPane().add(txtTableNumber);
-		txtTableNumber.setColumns(10);
+		txtSSin = new JTextField();
+		txtSSin.setText("Server SIN");
+		txtSSin.setBounds(17, 34, 134, 28);
+		getContentPane().add(txtSSin);
+		txtSSin.setColumns(10);
 		
 		txtCustomerId = new JTextField();
 		txtCustomerId.setText("Customer ID");
@@ -183,10 +194,10 @@ public class AppWindow extends JFrame {
 			
 		});
 		
-		final JButton btnCustomers = new JButton("Customers");
-		btnCustomers.setBounds(580, 36, 117, 29);
-		getContentPane().add(btnCustomers);
-		btnCustomers.addActionListener(new ActionListener() {
+		final JButton btnMenu = new JButton("Menu");
+		btnMenu.setBounds(580, 36, 117, 29);
+		getContentPane().add(btnMenu);
+		btnMenu.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -217,7 +228,7 @@ public class AppWindow extends JFrame {
 		btnStock.setEnabled(false);
 		btnStaff.setEnabled(false);
 		btnOrder.setEnabled(false);
-		btnCustomers.setEnabled(false);
+		btnMenu.setEnabled(false);
 		
 		consolePanel = new JPanel();
 		consolePanel.setBounds(10, 380, 764, 169);
@@ -247,8 +258,12 @@ public class AppWindow extends JFrame {
 				Connect.getInstance();
 				btnLogin.setEnabled(false);
 				btnRecipes.setEnabled(true);
-				btnCustomers.setEnabled(true);
+				btnMenu.setEnabled(true);
 				btnStock.setEnabled(true);
+				btnGross.setEnabled(true);
+				btnMostPop.setEnabled(true);
+				btnLeastPopular.setEnabled(true);
+				btnCheckOrder.setEnabled(true);
 				if (rdbtnAdministrator.isSelected())
 					btnStaff.setEnabled(true);
 			}
@@ -259,7 +274,7 @@ public class AppWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(txtTableNumber.getText() + " " + txtCustomerId.getText() + " " + txtMenuItem.getText());
+				System.out.println(txtSSin.getText() + " " + txtCustomerId.getText() + " " + txtMenuItem.getText());
 			}
 			
 		});
@@ -295,9 +310,9 @@ public class AppWindow extends JFrame {
 	 */
 	private void setUpCards(JPanel mainPanel) {
 		
-		blankCard = new JPanel();
+		baseCard = new JPanel();
 		recipeCard = new JPanel();
-		customerCard = new JPanel();
+		menuCard = new JPanel();
 		staffCard = new JPanel();
 		stockCard = new JPanel();
 		
@@ -312,7 +327,79 @@ public class AppWindow extends JFrame {
 		setupStockCard();
 		
 		
-		mainPanel.add(blankCard, HOME);
+		mainPanel.add(baseCard, HOME);
+		baseCard.setLayout(null);
+		
+		btnGross = new JButton("Check Gross Sales");
+		btnGross.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnGross.setBounds(230, 12, 314, 25);
+		baseCard.add(btnGross);
+		btnGross.setEnabled(false);
+		btnGross.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String start = getDataDialog("Enter start Date/Time\n "
+						+ "Enter it exactly like this: \"2013-11-02 12:07:11.927\"");
+				String end = getDataDialog("Enter start Date/Time\n "
+						+ "Enter it exactly like this: \"2013-11-02 12:07:11.927\"");
+				if (start.isEmpty() || end.isEmpty())
+					return;
+				Double gross = complexQ.checkGrossSales(start, end);
+				showInfoDialog(gross.toString());
+			}
+			
+		});
+		
+		btnMostPop = new JButton("Most Popular Item(s)");
+		btnMostPop.setBounds(230, 49, 314, 25);
+		baseCard.add(btnMostPop);
+		btnMostPop.setEnabled(false);
+		btnMostPop.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				checkItemPopularity("max");
+			}
+			
+		});
+		
+		btnCheckOrder = new JButton("Check Total Orders");
+		btnCheckOrder.setBounds(230, 123, 314, 25);
+		baseCard.add(btnCheckOrder);
+		btnCheckOrder.setEnabled(false);
+		btnCheckOrder.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String start = getDataDialog("Enter start Date/Time\n "
+						+ "Enter it exactly like this: \"2013-11-02 12:07:11.927\"");
+				String end = getDataDialog("Enter start Date/Time\n "
+						+ "Enter it exactly like this: \"2013-11-02 12:07:11.927\"");
+				if (start.isEmpty() || end.isEmpty())
+					return;
+				int gross = complexQ.checkTotalOrders(start, end);
+				showInfoDialog(String.valueOf(gross));
+			}
+			
+		});
+		
+		btnLeastPopular = new JButton("Least Popular");
+		btnLeastPopular.setBounds(230, 86, 314, 25);
+		btnLeastPopular.setEnabled(false);
+		baseCard.add(btnLeastPopular);
+		btnLeastPopular.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				checkItemPopularity("min");
+			}
+			
+		});
+		
 		mainPanel.add(recipeCard, RECIPE);
 		recipeCard.setLayout(null);
 		
@@ -323,8 +410,24 @@ public class AppWindow extends JFrame {
 		recipeScroll.setBounds(6, 62, 752, 184);
 		recipeCard.add(recipeScroll);
 		
-		mainPanel.add(customerCard, CUSTOMER);
-		customerCard.setLayout(null);
+		mainPanel.add(menuCard, CUSTOMER);
+		menuCard.setLayout(null);
+		
+		btnDelMenuItem = new JButton("Del Menu Item");
+		btnDelMenuItem.setBounds(293, 44, 171, 25);
+		menuCard.add(btnDelMenuItem);
+		btnDelMenuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String rname = getDataDialog("Enter the recipe name of the item you want to delete");
+				if (rname.isEmpty())
+					return;
+				menuQ.deleteMenuItem(rname);
+			}
+			
+		});
+		
 		mainPanel.add(staffCard, STAFF);
 		staffCard.setLayout(null);
 		
@@ -501,10 +604,10 @@ public class AppWindow extends JFrame {
 	}
 
 	private void setupCustomerCard() {
-		JLabel lblMenu = new JLabel(CUSTOMER);
+		JLabel lblMenu = new JLabel("Menu");
 		lblMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMenu.setBounds(206, 16, 328, 16);
-		customerCard.add(lblMenu);
+		menuCard.add(lblMenu);
 	}
 
 	private void setupRecipeCard() {
@@ -666,7 +769,7 @@ public class AppWindow extends JFrame {
 	 * @return a string exactly as the user entered it
 	 */
 	public String getDataDialog(String msg) {
-		return JOptionPane.showInputDialog(msg);
+		return JOptionPane.showInputDialog(msg).trim();
 	}
 	
 	/**
@@ -683,5 +786,18 @@ public class AppWindow extends JFrame {
 			}
 			StockQueries.addStock(StockQueries.sqlStringify(name), q, p);
 		}
+	}
+	
+	/**
+	 * USed to call the Item popularity query
+	 * @param s "max" or "min"
+	 */
+	private void checkItemPopularity(String s) {
+		List<String> items = complexQ.checkPopularItem(s);
+		Object [] display = new Object[items.size() - 1];
+		for (int i = 0; i < items.size(); i++) {
+			display[i] = items.get(i);
+		}
+		JOptionPane.showMessageDialog(null, display);
 	}
 }

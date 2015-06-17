@@ -34,7 +34,7 @@ public class StockQueries extends QueryBase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(haveIt == true){
+		if(haveIt){
 			int amount = howMuch + qty;
 			sqlUpdate("Stock", "Quantity = "+ amount , "sName = "+sName);
 		}
