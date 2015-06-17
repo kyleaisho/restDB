@@ -57,10 +57,6 @@ public class AppWindow extends JFrame {
 	private static final String STOCK = "Stock";
 	private static final String HOME = "Home";
 	
-	private JTextField txtSSin;
-	private JTextField txtCustomerId;
-	private JTextField txtMenuItem;
-	
 	private JPanel recipeCard;
 	private JPanel menuCard;
 	private JPanel staffCard;
@@ -142,31 +138,6 @@ public class AppWindow extends JFrame {
 		getContentPane().add(rdbtnAdministrator);
 		
 		
-		
-		JLabel lblPlaceOrder = new JLabel("Place Order");
-		lblPlaceOrder.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPlaceOrder.setBounds(17, 6, 85, 16);
-		getContentPane().add(lblPlaceOrder);
-		
-		txtSSin = new JTextField();
-		txtSSin.setText("Server SIN");
-		txtSSin.setBounds(17, 34, 134, 28);
-		getContentPane().add(txtSSin);
-		txtSSin.setColumns(10);
-		
-		txtCustomerId = new JTextField();
-		txtCustomerId.setText("Customer ID");
-		txtCustomerId.setBounds(161, 34, 134, 28);
-		getContentPane().add(txtCustomerId);
-		txtCustomerId.setColumns(10);
-		
-		txtMenuItem = new JTextField();
-		txtMenuItem.setText("Menu Item");
-		txtMenuItem.setBounds(305, 34, 134, 28);
-		getContentPane().add(txtMenuItem);
-		txtMenuItem.setColumns(10);
-		
-		
 		//Create buttons
 		final JButton btnRecipes = new JButton("Recipes");
 		btnRecipes.setBounds(453, 36, 117, 29);
@@ -218,9 +189,28 @@ public class AppWindow extends JFrame {
 			
 		});
 		
-		JButton btnOrder = new JButton("Order");
-		btnOrder.setBounds(17, 76, 117, 29);
+		final JButton btnOrder = new JButton("Place Order");
+		btnOrder.setBounds(138, 36, 247, 29);
 		getContentPane().add(btnOrder);
+		btnOrder.addActionListener(new ActionListener() {
+
+			@SuppressWarnings("static-access")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String ssin = getDataDialog("Enter the server's SIN");
+				String cid = getDataDialog("Enter the customer's CID");
+				String order = getDataDialog("Enter menu item to be ordered");
+				if (ssin.isEmpty() || cid.isEmpty() || order.isEmpty()) {
+					showInfoDialog("Something you entered didn't work!");
+					return;
+				}
+				int sin = Integer.parseInt(ssin);
+				int cust = Integer.parseInt(cid);
+				orderQuery.enterService(cust, sin);
+				orderQuery.enterOrder(cust, order);
+			}
+			
+		});;
 		
 		
 		// Set all buttons to inactive until DB connect happens
@@ -264,17 +254,9 @@ public class AppWindow extends JFrame {
 				btnMostPop.setEnabled(true);
 				btnLeastPopular.setEnabled(true);
 				btnCheckOrder.setEnabled(true);
+				btnOrder.setEnabled(true);
 				if (rdbtnAdministrator.isSelected())
 					btnStaff.setEnabled(true);
-			}
-			
-		});
-		
-		btnOrder.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println(txtSSin.getText() + " " + txtCustomerId.getText() + " " + txtMenuItem.getText());
 			}
 			
 		});
