@@ -441,6 +441,7 @@ public class AppWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				MenuQueries menuQ = new MenuQueries();
 				String rname = getDataDialog("Enter the recipe name of the item you want to delete");
 				if (rname.isEmpty())
 					return;
@@ -713,7 +714,7 @@ public class AppWindow extends JFrame {
 				int row = recipesTable.getSelectedRow();
 				String rname = (String) recipesTable.getValueAt(row, 0);
 				String mname = getDataDialog("Enter the menu name");
-				Double price = Double.parseDouble(getDataDialog("What should the price be?").trim());
+				Double price = Double.parseDouble(getDataDialog("What should the price be?"));
 				MenuQueries mq = new MenuQueries();
 				mq.enterMenuItem(rname.trim(), mname.trim(), price);
 				
