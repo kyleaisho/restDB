@@ -25,7 +25,6 @@ public class StaffQueries extends QueryBase {
 	 * @param name The name of the new staff member
 	 */
 	protected static void deleteStaff(String sin) {
-		//Should kick off the cascade effect with associated recipes
 		sqlDelete("Staff","SIN = " + sin);
 	}
 	

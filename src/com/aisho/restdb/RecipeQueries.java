@@ -15,8 +15,9 @@ public class RecipeQueries extends QueryBase {
 		//- as a list in the Recipes table
 		
 		ResultSet rs = sqlSelect("*", "Recipes", "");
-		sqlInsert("Recipes", "'" + rName + "'" + "," + "'" + ingredients + "'");
 		sqlInsert("Recipes_Created", "'" + rName + "'" + "," + sin);
+		sqlInsert("Recipes", "'" + rName + "'" + "," + "'" + ingredients + "'");
+		
 		
 	}
 	

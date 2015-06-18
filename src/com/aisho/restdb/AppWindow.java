@@ -93,6 +93,7 @@ public class AppWindow extends JFrame {
 	private JButton btnLeastPopular;
 	private JButton btnDelMenuItem;
 	private JButton btnAteEverything;
+	private JButton btnDelRecipe;
 	
 	
 
@@ -430,6 +431,26 @@ public class AppWindow extends JFrame {
 		JScrollPane recipeScroll = new JScrollPane(recipesTable);
 		recipeScroll.setBounds(6, 62, 752, 184);
 		recipeCard.add(recipeScroll);
+		
+		btnDelRecipe = new JButton("Del Recipe");
+		btnDelRecipe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnDelRecipe.setBounds(467, 32, 117, 29);
+		btnDelRecipe.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String s = getDataDialog("Which Item should we delete?");
+				if (s.trim().isEmpty())
+					return;
+				RecipeQueries.sqlDelete("Recipes", "rName = " + RecipeQueries.sqlStringify(s));
+				
+			}
+			
+		});
+		recipeCard.add(btnDelRecipe);
 		
 		mainPanel.add(menuCard, CUSTOMER);
 		menuCard.setLayout(null);

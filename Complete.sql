@@ -56,7 +56,8 @@ CREATE TABLE Menu_Price(
 rName CHAR(25),
 Price Decimal,
 primary key(rName),
-foreign key (rName) references Recipes(rName));
+foreign key (rName) references Recipes(rName)
+ON DELETE CASCADE);
 
 CREATE TABLE Order_Placed_Ordered(
 ID Integer,
@@ -79,7 +80,7 @@ CREATE TABLE Requires(
 sName CHAR(15),
 mName CHAR(25),
 primary key(sName, mName),
-foreign key (mName) references Recipe_To_Menu(mName),
+foreign key (mName) references Recipe_To_Menu(mName) ON DELETE CASCADE,
 foreign key (sName) references Stock(sName));
 
 
